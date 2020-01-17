@@ -72,6 +72,114 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '16',
                 'title' => 'user_access',
             ],
+            [
+                'id'    => '17',
+                'title' => 'student_management_access',
+            ],
+            [
+                'id'    => '18',
+                'title' => 'student_create',
+            ],
+            [
+                'id'    => '19',
+                'title' => 'student_edit',
+            ],
+            [
+                'id'    => '20',
+                'title' => 'student_show',
+            ],
+            [
+                'id'    => '21',
+                'title' => 'student_delete',
+            ],
+            [
+                'id'    => '22',
+                'title' => 'student_access',
+            ],
+            [
+                'id'    => '23',
+                'title' => 'book_date_create',
+            ],
+            [
+                'id'    => '24',
+                'title' => 'book_date_edit',
+            ],
+            [
+                'id'    => '25',
+                'title' => 'book_date_show',
+            ],
+            [
+                'id'    => '26',
+                'title' => 'book_date_delete',
+            ],
+            [
+                'id'    => '27',
+                'title' => 'book_date_access',
+            ],
+            [
+                'id'    => '28',
+                'title' => 'excel_report_create',
+            ],
+            [
+                'id'    => '29',
+                'title' => 'excel_report_edit',
+            ],
+            [
+                'id'    => '30',
+                'title' => 'excel_report_show',
+            ],
+            [
+                'id'    => '31',
+                'title' => 'excel_report_delete',
+            ],
+            [
+                'id'    => '32',
+                'title' => 'excel_report_access',
+            ],
+            [
+                'id'    => '33',
+                'title' => 'system_operation_access',
+            ],
+            [
+                'id'    => '34',
+                'title' => 'location_create',
+            ],
+            [
+                'id'    => '35',
+                'title' => 'location_edit',
+            ],
+            [
+                'id'    => '36',
+                'title' => 'location_show',
+            ],
+            [
+                'id'    => '37',
+                'title' => 'location_delete',
+            ],
+            [
+                'id'    => '38',
+                'title' => 'location_access',
+            ],
+            [
+                'id'    => '39',
+                'title' => 'available_date_create',
+            ],
+            [
+                'id'    => '40',
+                'title' => 'available_date_edit',
+            ],
+            [
+                'id'    => '41',
+                'title' => 'available_date_show',
+            ],
+            [
+                'id'    => '42',
+                'title' => 'available_date_delete',
+            ],
+            [
+                'id'    => '43',
+                'title' => 'available_date_access',
+            ],
         ];
 
         Permission::insert($permissions);

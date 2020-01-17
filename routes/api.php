@@ -9,4 +9,20 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Users
     Route::apiResource('users', 'UsersApiController');
+
+    // Students
+    Route::post('students/media', 'StudentApiController@storeMedia')->name('students.storeMedia');
+    Route::apiResource('students', 'StudentApiController');
+
+    // Book Dates
+    Route::apiResource('book-dates', 'BookDateApiController');
+
+    // Excel Reports
+    Route::apiResource('excel-reports', 'ExcelReportApiController');
+
+    // Locations
+    Route::apiResource('locations', 'LocationApiController');
+
+    // Available Dates
+    Route::apiResource('available-dates', 'AvailableDateApiController');
 });

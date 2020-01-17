@@ -52,6 +52,82 @@
                     </ul>
                 </li>
             @endcan
+            @can('student_management_access')
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa-fw fas fa-address-card">
+
+                        </i>
+                        <span>{{ trans('cruds.studentManagement.title') }}</span>
+                        <span class="pull-right-container"><i class="fa fa-fw fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @can('student_access')
+                            <li class="{{ request()->is('admin/students') || request()->is('admin/students/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.students.index") }}">
+                                    <i class="fa-fw fas fa-user">
+
+                                    </i>
+                                    <span>{{ trans('cruds.student.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('book_date_access')
+                            <li class="{{ request()->is('admin/book-dates') || request()->is('admin/book-dates/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.book-dates.index") }}">
+                                    <i class="fa-fw fas fa-calendar-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.bookDate.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('excel_report_access')
+                            <li class="{{ request()->is('admin/excel-reports') || request()->is('admin/excel-reports/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.excel-reports.index") }}">
+                                    <i class="fa-fw far fa-file-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.excelReport.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
+            @can('system_operation_access')
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa-fw fas fa-cog">
+
+                        </i>
+                        <span>{{ trans('cruds.systemOperation.title') }}</span>
+                        <span class="pull-right-container"><i class="fa fa-fw fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @can('location_access')
+                            <li class="{{ request()->is('admin/locations') || request()->is('admin/locations/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.locations.index") }}">
+                                    <i class="fa-fw fas fa-map-marker-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.location.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('available_date_access')
+                            <li class="{{ request()->is('admin/available-dates') || request()->is('admin/available-dates/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.available-dates.index") }}">
+                                    <i class="fa-fw far fa-calendar-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.availableDate.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
             <li>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="fas fa-fw fa-sign-out-alt">

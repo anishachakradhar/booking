@@ -25,4 +25,26 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Users
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
+
+    // Students
+    Route::delete('students/destroy', 'StudentController@massDestroy')->name('students.massDestroy');
+    Route::post('students/media', 'StudentController@storeMedia')->name('students.storeMedia');
+    Route::post('students/ckmedia', 'StudentController@storeCKEditorImages')->name('students.storeCKEditorImages');
+    Route::resource('students', 'StudentController');
+
+    // Book Dates
+    Route::delete('book-dates/destroy', 'BookDateController@massDestroy')->name('book-dates.massDestroy');
+    Route::resource('book-dates', 'BookDateController');
+
+    // Excel Reports
+    Route::delete('excel-reports/destroy', 'ExcelReportController@massDestroy')->name('excel-reports.massDestroy');
+    Route::resource('excel-reports', 'ExcelReportController');
+
+    // Locations
+    Route::delete('locations/destroy', 'LocationController@massDestroy')->name('locations.massDestroy');
+    Route::resource('locations', 'LocationController');
+
+    // Available Dates
+    Route::delete('available-dates/destroy', 'AvailableDateController@massDestroy')->name('available-dates.massDestroy');
+    Route::resource('available-dates', 'AvailableDateController');
 });
