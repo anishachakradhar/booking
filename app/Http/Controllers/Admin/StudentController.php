@@ -13,6 +13,9 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use App\Module;
+use App\Conductor;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -31,13 +34,16 @@ class StudentController extends Controller
     {
         abort_if(Gate::denies('student_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $locations = Location::all()->pluck('location', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $locations = Location::all()->pluck('location', 'location_id')->prepend(trans('global.pleaseSelect'), '');
+        $modules = Module::all()->pluck('module', 'module_id')->prepend(trans('global.pleaseSelect'), '');
+        $conductors = Conductor::all()->pluck('conductor', 'conductor_id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.students.create', compact('locations'));
+        return view('admin.students.create', compact('locations','modules','conductors'));
     }
 
     public function store(StoreStudentRequest $request)
     {
+        $request['student_id'] = Str::random(5);
         $student = Student::create($request->all());
 
         if ($request->input('passport_photo', false)) {
@@ -55,11 +61,14 @@ class StudentController extends Controller
     {
         abort_if(Gate::denies('student_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $locations = Location::all()->pluck('location', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $locations = Location::all()->pluck('location', 'location_id')->prepend(trans('global.pleaseSelect'), '');
+        $modules = Module::all()->pluck('module', 'module_id')->prepend(trans('global.pleaseSelect'), '');
+        $conductors = Conductor::all()->pluck('conductor', 'conductor_id')->prepend(trans('global.pleaseSelect'), '');
+
 
         $student->load('location');
 
-        return view('admin.students.edit', compact('locations', 'student'));
+        return view('admin.students.edit', compact('locations', 'modules', 'conductors', 'student'));
     }
 
     public function update(UpdateStudentRequest $request, Student $student)
@@ -81,7 +90,8 @@ class StudentController extends Controller
     {
         abort_if(Gate::denies('student_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $student->load('location', 'nameExcelReports', 'emailExcelReports', 'phoneExcelReports', 'dobExcelReports', 'studentsEmailBookDates', 'addressExcelReports', 'consultancyNameExcelReports', 'locationExcelReports', 'conductorExcelReports', 'moduleExcelReports');
+        $student->load('location', 'module', 'conductor');
+        // $student->load('location', 'module', 'conductor', 'nameExcelReports', 'emailExcelReports', 'phoneExcelReports', 'dobExcelReports', 'studentsEmailBookDates', 'addressExcelReports', 'consultancyNameExcelReports', 'locationExcelReports', 'conductorExcelReports', 'moduleExcelReports');
 
         return view('admin.students.show', compact('student'));
     }

@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Location extends Model
+class Conductor extends Model
 {
     use SoftDeletes;
 
-    public $table = 'locations';
+    public $table = 'conductors';
 
     protected $dates = [
         'created_at',
@@ -18,15 +18,15 @@ class Location extends Model
     ];
 
     protected $fillable = [
-        'location',
-        'location_id',
+        'conductor',
+        'conductor_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    public function locationStudents()
+    public function conductorStudents()
     {
-        return $this->hasMany(Student::class, 'location_id', 'location_id');
+        return $this->hasMany(Student::class, 'conductor_id', 'conductor_id');
     }
 }

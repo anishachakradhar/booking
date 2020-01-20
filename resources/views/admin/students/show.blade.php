@@ -98,7 +98,7 @@
                                         {{ trans('cruds.student.fields.conductor') }}
                                     </th>
                                     <td>
-                                        {{ App\Student::CONDUCTOR_SELECT[$student->conductor] ?? '' }}
+                                        {{ $student->conductor->conductor ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -106,7 +106,7 @@
                                         {{ trans('cruds.student.fields.module') }}
                                     </th>
                                     <td>
-                                        {{ App\Student::MODULE_SELECT[$student->module] ?? '' }}
+                                        {{ $student->module->module ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -136,7 +136,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            {{-- <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ trans('global.relatedData') }}
                 </div>
@@ -224,7 +224,7 @@
                         @includeIf('admin.students.relationships.moduleExcelReports', ['excelReports' => $student->moduleExcelReports])
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

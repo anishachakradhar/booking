@@ -18,20 +18,21 @@ class BookDate extends Model
     ];
 
     protected $fillable = [
-        'date_id',
+        'book_date_id',
+        'available_date_id',
+        'student_id',
         'created_at',
         'updated_at',
         'deleted_at',
-        'students_email_id',
     ];
 
-    public function students_email()
+    public function student()
     {
-        return $this->belongsTo(Student::class, 'students_email_id');
+        return $this->belongsTo(Student::class, 'student_id','student_id');
     }
 
     public function date()
     {
-        return $this->belongsTo(AvailableDate::class, 'date_id');
+        return $this->belongsTo(AvailableDate::class, 'available_date_id','available_date_id');
     }
 }

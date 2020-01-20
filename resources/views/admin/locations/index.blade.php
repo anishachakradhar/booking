@@ -42,7 +42,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $location->id ?? '' }}
+                                            {{ $loop->iteration }}
                                         </td>
                                         <td>
                                             {{ $location->location ?? '' }}

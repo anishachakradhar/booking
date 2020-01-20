@@ -115,6 +115,26 @@
                                 </a>
                             </li>
                         @endcan
+                        @can('module_access')
+                            <li class="{{ request()->is('admin/modules') || request()->is('admin/modules/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.modules.index") }}">
+                                    <i class="fa-fw fas fa-check-circle">
+
+                                    </i>
+                                    <span>{{ trans('cruds.module.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('conductor_access')
+                            <li class="{{ request()->is('admin/conductors') || request()->is('admin/conductors/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.conductors.index") }}">
+                                    <i class="fa-fw fas fa-hand-pointer">
+
+                                    </i>
+                                    <span>{{ trans('cruds.conductor.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
                         @can('available_date_access')
                             <li class="{{ request()->is('admin/available-dates') || request()->is('admin/available-dates/*') ? 'active' : '' }}">
                                 <a href="{{ route("admin.available-dates.index") }}">
