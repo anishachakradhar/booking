@@ -48,17 +48,15 @@ class StoreStudentRequest extends FormRequest
             'passport_photo'  => [
                 'required',
             ],
-            'conductor_id'       => [
+            'conductor'       => [
                 'required',
-                'string',
             ],
-            'module_id'          => [
+            'module'          => [
                 'required',
-                'string',
             ],
             'location_id'     => [
                 'required',
-                'string',
+                'integer',
             ],
             'status'          => [
                 'required',

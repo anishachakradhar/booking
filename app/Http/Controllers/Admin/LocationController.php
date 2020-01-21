@@ -10,7 +10,6 @@ use App\Location;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Str;
 
 class LocationController extends Controller
 {
@@ -32,10 +31,7 @@ class LocationController extends Controller
 
     public function store(StoreLocationRequest $request)
     {
-        $location = Location::create([
-            'location' => $request->location,
-            'location_id' => Str::random(5),
-        ]);
+        $location = Location::create($request->all());
 
         return redirect()->route('admin.locations.index');
     }

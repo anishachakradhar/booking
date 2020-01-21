@@ -77,7 +77,7 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.student.fields.passport_photo_helper') }}</span>
                         </div>
-                        {{-- <div class="form-group {{ $errors->has('conductor') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('conductor') ? 'has-error' : '' }}">
                             <label class="required">{{ trans('cruds.student.fields.conductor') }}</label>
                             <select class="form-control" name="conductor" id="conductor" required>
                                 <option value disabled {{ old('conductor', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
@@ -102,33 +102,7 @@
                                 <span class="help-block" role="alert">{{ $errors->first('module') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.student.fields.module_helper') }}</span>
-                        </div> --}}
-                        <div class="form-group {{ $errors->has('conductor') ? 'has-error' : '' }}">
-                            <label class="required" for="conductor_id">{{ trans('cruds.student.fields.conductor') }}</label>
-                            <select class="form-control select2" name="conductor_id" id="conductor_id" required>
-                                @foreach($conductors as $conductor_id => $conductor)
-                                    <option value="{{ $conductor_id }}" {{ ($student->conductor ? $student->conductor->conductor_id : old('conductor_id')) == $conductor_id ? 'selected' : '' }}>{{ $conductor }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('conductor_id'))
-                                <span class="help-block" role="alert">{{ $errors->first('conductor_id') }}</span>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.student.fields.conductor_helper') }}</span>
                         </div>
-
-                        <div class="form-group {{ $errors->has('module') ? 'has-error' : '' }}">
-                            <label class="required" for="module_id">{{ trans('cruds.student.fields.module') }}</label>
-                            <select class="form-control select2" name="module_id" id="module_id" required>
-                                @foreach($modules as $module_id => $module)
-                                    <option value="{{ $module_id }}" {{ ($student->module ? $student->module->module_id : old('module_id')) == $module_id ? 'selected' : '' }}>{{ $module }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('module_id'))
-                                <span class="help-block" role="alert">{{ $errors->first('module_id') }}</span>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.student.fields.module_helper') }}</span>
-                        </div>
-
                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
                             <label class="required" for="location_id">{{ trans('cruds.student.fields.location') }}</label>
                             <select class="form-control select2" name="location_id" id="location_id" required>
@@ -141,7 +115,6 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.student.fields.location_helper') }}</span>
                         </div>
-
                         <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
                             <label class="required">{{ trans('cruds.student.fields.status') }}</label>
                             <select class="form-control" name="status" id="status" required>
