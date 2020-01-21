@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModulesTable extends Migration
+class CreateAvailableDatesTable extends Migration
 {
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('available_dates', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('module')->nullable();
-
-            $table->string('module_id')->unique();
+            $table->date('available_date')->nullable();
 
             $table->timestamps();
 

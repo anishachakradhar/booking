@@ -180,46 +180,6 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '43',
                 'title' => 'available_date_access',
             ],
-            [
-                'id'    => '44',
-                'title' => 'module_access',
-            ],
-            [
-                'id'    => '45',
-                'title' => 'module_create',
-            ],
-            [
-                'id'    => '46',
-                'title' => 'module_edit',
-            ],
-            [
-                'id'    => '47',
-                'title' => 'module_show',
-            ],
-            [
-                'id'    => '48',
-                'title' => 'module_delete',
-            ],
-            [
-                'id'    => '49',
-                'title' => 'conductor_access',
-            ],
-            [
-                'id'    => '50',
-                'title' => 'conductor_create',
-            ],
-            [
-                'id'    => '51',
-                'title' => 'conductor_edit',
-            ],
-            [
-                'id'    => '52',
-                'title' => 'conductor_show',
-            ],
-            [
-                'id'    => '53',
-                'title' => 'conductor_delete',
-            ],
         ];
 
         Permission::insert($permissions);

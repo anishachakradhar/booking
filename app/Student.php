@@ -31,10 +31,10 @@ class Student extends Model implements HasMedia
         'idp' => 'IDP',
     ];
 
-    // const MODULE_SELECT = [
-    //     'academic' => 'IELTS Academic',
-    //     'general'  => 'IELTS General Training',
-    // ];
+    const MODULE_SELECT = [
+        'academic' => 'IELTS Academic',
+        'general'  => 'IELTS General Training',
+    ];
 
     const STATUS_SELECT = [
         'pending'      => 'Pending',
@@ -48,17 +48,16 @@ class Student extends Model implements HasMedia
         'name',
         'email',
         'phone',
+        'module',
         'status',
         'address',
+        'conductor',
         'created_at',
         'updated_at',
         'deleted_at',
+        'location_id',
         'passport_number',
         'consultancy_name',
-        'location_id',
-        'module_id',
-        'conductor_id',
-        'student_id',
     ];
 
     public function registerMediaConversions(Media $media = null)
@@ -86,10 +85,10 @@ class Student extends Model implements HasMedia
         return $this->hasMany(ExcelReport::class, 'dob_id', 'id');
     }
 
-    // public function studentsEmailBookDates()
-    // {
-    //     return $this->hasMany(BookDate::class, 'students_email_id', 'id');
-    // }
+    public function studentsEmailBookDates()
+    {
+        return $this->hasMany(BookDate::class, 'students_email_id', 'id');
+    }
 
     public function addressExcelReports()
     {
@@ -140,18 +139,6 @@ class Student extends Model implements HasMedia
 
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id', 'location_id');
-    }
-    public function module()
-    {
-        return $this->belongsTo(Module::class, 'module_id', 'module_id');
-    }
-    public function conductor()
-    {
-        return $this->belongsTo(Conductor::class, 'conductor_id', 'conductor_id');
-    }
-    public function studentBookDate()
-    {
-        return $this->hasOne(BookDate::class, 'student_id', 'student_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 }

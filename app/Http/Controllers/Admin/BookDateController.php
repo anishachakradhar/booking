@@ -11,9 +11,6 @@ use App\Http\Requests\UpdateBookDateRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Str;
-use App\Student;
-use App\Http\Requests\StudentExistRequest;
 
 class BookDateController extends Controller
 {
@@ -21,31 +18,25 @@ class BookDateController extends Controller
     {
         abort_if(Gate::denies('book_date_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $students = Student::with('studentBookDate.date')->get();
+        $bookDates = BookDate::all();
 
-        return view('admin.bookDates.index', compact('students'));
+        return view('admin.bookDates.index', compact('bookDates'));
     }
 
-    public function create(StudentExistRequest $request)
+    public function create()
     {
         abort_if(Gate::denies('book_date_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $student_id = $request->student_id;
+        $dates = AvailableDate::all()->pluck('available_date', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $dates = AvailableDate::all()->pluck('available_date', 'available_date_id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.bookDates.create', compact(['dates', 'student_id']));
+        return view('admin.bookDates.create', compact('dates'));
     }
 
     public function store(StoreBookDateRequest $request)
     {
-        $bookDate = BookDate::create([
-            'book_date_id' => Str::random(5),
-            'available_date_id' => $request->available_date_id,
-            'student_id' => $request->student_id,
-        ]);
+        $bookDate = BookDate::create($request->all());
 
-        return redirect()->route('admin.book-dates.index',compact('bookDate'));
+        return redirect()->route('admin.book-dates.index');
     }
 
     public function edit(BookDate $bookDate)
@@ -54,7 +45,7 @@ class BookDateController extends Controller
 
         $dates = AvailableDate::all()->pluck('available_date', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $bookDate->load('student', 'date');
+        $bookDate->load('students_email', 'date');
 
         return view('admin.bookDates.edit', compact('dates', 'bookDate'));
     }
@@ -70,7 +61,7 @@ class BookDateController extends Controller
     {
         abort_if(Gate::denies('book_date_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bookDate->load('student', 'date');
+        $bookDate->load('students_email', 'date');
 
         return view('admin.bookDates.show', compact('bookDate'));
     }

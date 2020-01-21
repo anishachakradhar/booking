@@ -27,18 +27,10 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.name') }}
+                                        {{ trans('cruds.bookDate.fields.students_email') }}
                                     </th>
                                     <td>
-                                        {{ $bookDate->student->name ?? '' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.bookDate.fields.email') }}
-                                    </th>
-                                    <td>
-                                        {{ $bookDate->student->email ?? '' }}
+                                        {{ $bookDate->students_email->email ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>

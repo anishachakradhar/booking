@@ -18,21 +18,27 @@ class BookDate extends Model
     ];
 
     protected $fillable = [
-        'book_date_id',
-        'available_date_id',
-        'student_id',
+        'date_id',
         'created_at',
         'updated_at',
         'deleted_at',
+        'students_email_id',
     ];
 
-    public function student()
+    public static function boot()
     {
-        return $this->belongsTo(Student::class, 'student_id','student_id');
+        parent::boot();
+
+        BookDate::observe(new \App\Observers\BookDateActionObserver);
+    }
+
+    public function students_email()
+    {
+        return $this->belongsTo(Student::class, 'students_email_id');
     }
 
     public function date()
     {
-        return $this->belongsTo(AvailableDate::class, 'available_date_id','available_date_id');
+        return $this->belongsTo(AvailableDate::class, 'date_id');
     }
 }

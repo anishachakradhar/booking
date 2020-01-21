@@ -45,14 +45,15 @@ class UpdateStudentRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'conductor_id'       => [
+            'conductor'       => [
                 'required',
             ],
-            'module_id'          => [
+            'module'          => [
                 'required',
             ],
             'location_id'     => [
                 'required',
+                'integer',
             ],
             'status'          => [
                 'required',
