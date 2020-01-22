@@ -106,10 +106,10 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ App\Student::CONDUCTOR_SELECT[$student->conductor] ?? '' }}
+                                            {{ $student->module->module ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Student::MODULE_SELECT[$student->module] ?? '' }}
+                                            {{ $student->conductor->conductor ?? '' }}
                                         </td>
                                         <td>
                                             {{ $student->location->location ?? '' }}

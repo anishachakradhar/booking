@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
-    @can('book_date_create')
+    {{-- @can('book_date_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route("admin.book-dates.create") }}">
@@ -9,7 +9,7 @@
                 </a>
             </div>
         </div>
-    @endcan
+    @endcan --}}
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -28,7 +28,10 @@
                                         {{ trans('cruds.bookDate.fields.id') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.students_email') }}
+                                        {{ trans('cruds.bookDate.fields.name') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.bookDate.fields.email') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.bookDate.fields.date') }}
@@ -36,47 +39,67 @@
                                     <th>
                                         &nbsp;
                                     </th>
+                                    <th>
+                                        Book Date
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($bookDates as $key => $bookDate)
-                                    <tr data-entry-id="{{ $bookDate->id }}">
-                                        <td>
+                                    @foreach($students as $key => $student)
+                                        <tr data-entry-id="{{ $student->id }}">
+                                            <td>
 
-                                        </td>
-                                        <td>
-                                            {{ $bookDate->id ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $bookDate->students_email->email ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $bookDate->date->available_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            @can('book_date_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $bookDate->id) }}">
-                                                    {{ trans('global.view') }}
-                                                </a>
-                                            @endcan
+                                            </td>
+                                            <td>
+                                                {{ $loop->iteration }}
+                                            </td>
+                                            <td>
+                                                {{ $student->name ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $student->email ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $student->studentBookDate->date->available_date ?? '' }}
+                                            </td>
+                                            <td>
+                                                @can('book_date_show')
+                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $student->id) }}">
+                                                        {{ trans('global.view') }}
+                                                    </a>
+                                                @endcan
 
-                                            @can('book_date_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $bookDate->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
+                                                @can('book_date_edit')
+                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $student->id) }}">
+                                                        {{ trans('global.edit') }}
+                                                    </a>
+                                                @endcan
 
-                                            @can('book_date_delete')
-                                                <form action="{{ route('admin.book-dates.destroy', $bookDate->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                </form>
-                                            @endcan
+                                                @can('book_date_delete')
+                                                    <form action="{{ route('admin.book-dates.destroy', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    </form>
+                                                @endcan
 
-                                        </td>
-
-                                    </tr>
+                                            </td>
+                                            <td>
+                                                @can('book_date_create')
+                                                    <div style="margin-bottom: 10px;" class="row">
+                                                        <div class="col-lg-12">
+                                                            <form action="{{ route('admin.book-dates.create') }}">
+                                                                @csrf
+                                                                <input type="hidden" name="student_id" value="{{$student->student_id}}">
+                                                                <button type="submit" class="btn btn-success">
+                                                                    {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
+                                                                </button> 
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @endcan
+                                            </td>
+                                        </tr>
                                 @endforeach
                             </tbody>
                         </table>

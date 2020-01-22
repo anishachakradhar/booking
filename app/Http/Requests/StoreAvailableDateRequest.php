@@ -21,7 +21,7 @@ class StoreAvailableDateRequest extends FormRequest
         return [
             'available_date' => [
                 'date_format:' . config('panel.date_format'),
-                'nullable',
+                'required',
             ],
         ];
     }

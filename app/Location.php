@@ -19,6 +19,7 @@ class Location extends Model
 
     protected $fillable = [
         'location',
+        'location_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -26,6 +27,6 @@ class Location extends Model
 
     public function locationStudents()
     {
-        return $this->hasMany(Student::class, 'location_id', 'id');
+        return $this->hasMany(Student::class, 'location_id', 'location_id');
     }
 }

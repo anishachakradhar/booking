@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateAvailableDateRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class AvailableDateController extends Controller
 {
@@ -31,7 +32,10 @@ class AvailableDateController extends Controller
 
     public function store(StoreAvailableDateRequest $request)
     {
-        $availableDate = AvailableDate::create($request->all());
+        $availableDate = AvailableDate::create([
+            'available_date' => $request->available_date,
+            'available_date_id' => Str::random(5),
+        ]);
 
         return redirect()->route('admin.available-dates.index');
     }
