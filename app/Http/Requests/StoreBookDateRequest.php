@@ -19,10 +19,13 @@ class StoreBookDateRequest extends FormRequest
     public function rules()
     {
         return [
-            'date_id' => [
+            'available_date_id' => [
                 'required',
-                'integer',
+                'string',
             ],
+            'student_id' => 
+                'required|exists:students,student_id',
+            
         ];
     }
 }

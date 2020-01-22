@@ -75,7 +75,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $student->id ?? '' }}
+                                            {{ $loop->iteration }}
                                         </td>
                                         <td>
                                             {{ $student->name ?? '' }}
@@ -105,11 +105,17 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             {{ App\Student::CONDUCTOR_SELECT[$student->conductor] ?? '' }}
+                                        </td> --}}
+                                        {{-- <td>
+                                            {{ App\Student::MODULE_SELECT[$student->module] ?? '' }}
+                                        </td> --}}
+                                        <td>
+                                            {{ $student->conductor->conductor ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Student::MODULE_SELECT[$student->module] ?? '' }}
+                                            {{ $student->module->module ?? '' }}
                                         </td>
                                         <td>
                                             {{ $student->location->location ?? '' }}

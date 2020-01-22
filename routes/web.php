@@ -44,6 +44,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('locations/destroy', 'LocationController@massDestroy')->name('locations.massDestroy');
     Route::resource('locations', 'LocationController');
 
+    // Modules
+    Route::delete('modules/destroy', 'ModuleController@massDestroy')->name('modules.massDestroy');
+    Route::resource('modules', 'ModuleController');
+
+    // conductors
+    Route::delete('conductors/destroy', 'ConductorController@massDestroy')->name('conductors.massDestroy');
+    Route::resource('conductors', 'ConductorController');
+
     // Available Dates
     Route::delete('available-dates/destroy', 'AvailableDateController@massDestroy')->name('available-dates.massDestroy');
     Route::resource('available-dates', 'AvailableDateController');
