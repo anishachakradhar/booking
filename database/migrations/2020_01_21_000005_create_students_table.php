@@ -27,19 +27,9 @@ class CreateStudentsTable extends Migration
 
             $table->integer('passport_number');
 
-            $table->string('conductor_id');
+            $table->string('module');
 
-            $table->foreign('conductor_id')->references('conductor_id')->on('conductors');
-
-            $table->string('module_id');
-
-            $table->foreign('module_id')->references('module_id')->on('modules');
-
-            $table->string('location_id');
-
-            $table->foreign('location_id')->references('location_id')->on('locations');
-
-            $table->string('student_id')->unique();
+            $table->string('conductor');
 
             $table->timestamps();
 

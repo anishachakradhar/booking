@@ -42,7 +42,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $loop->iteration }}
+                                            {{ $availableDate->id ?? '' }}
                                         </td>
                                         <td>
                                             {{ $availableDate->available_date ?? '' }}

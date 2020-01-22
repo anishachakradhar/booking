@@ -20,11 +20,10 @@ class AvailableDate extends Model
     ];
 
     protected $fillable = [
-        'available_date',
-        'available_date_id',
         'updated_at',
         'created_at',
         'deleted_at',
+        'available_date',
     ];
 
     public function locationExcelReports()
@@ -34,7 +33,7 @@ class AvailableDate extends Model
 
     public function dateBookDates()
     {
-        return $this->hasMany(BookDate::class, 'available_date_id', 'available_date_id');
+        return $this->hasMany(BookDate::class, 'date_id', 'id');
     }
 
     public function getAvailableDateAttribute($value)
