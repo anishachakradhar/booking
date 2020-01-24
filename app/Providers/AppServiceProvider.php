@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\BookDate;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\BookDateActionObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        BookDate::observe(BookDateActionObserver::class);
     }
 }

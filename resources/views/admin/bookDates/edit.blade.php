@@ -9,18 +9,18 @@
                     {{ trans('global.edit') }} {{ trans('cruds.bookDate.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="{{ route("admin.book-dates.update", [$bookDate->id]) }}" enctype="multipart/form-data">
-                        @method('PUT')
+                    <form method="POST" action="{{ route('admin.book-dates.update', $bookDateId->book_date_id) }}" enctype="multipart/form-data">
+                        @method('PATCH')
                         @csrf
                         <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
-                            <label class="required" for="date_id">{{ trans('cruds.bookDate.fields.date') }}</label>
-                            <select class="form-control select2" name="date_id" id="date_id" required>
+                            <label class="required" for="available_date_id">{{ trans('cruds.bookDate.fields.date') }}</label>
+                            <select class="form-control select2" name="available_date_id" id="available_date_id" required>
                                 @foreach($dates as $id => $date)
-                                    <option value="{{ $id }}" {{ ($bookDate->date ? $bookDate->date->id : old('date_id')) == $id ? 'selected' : '' }}>{{ $date }}</option>
+                                    <option value="{{ $id }}" {{ ($bookDateId->date ? $bookDateId->date->available_date_id : old('available_date_id')) == $id ? 'selected' : '' }}>{{ $date }}</option>
                                 @endforeach
                             </select>
-                            @if($errors->has('date_id'))
-                                <span class="help-block" role="alert">{{ $errors->first('date_id') }}</span>
+                            @if($errors->has('available_date_id'))
+                                <span class="help-block" role="alert">{{ $errors->first('available_date_id') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.bookDate.fields.date_helper') }}</span>
                         </div>

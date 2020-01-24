@@ -19,10 +19,10 @@ class UpdateBookDateRequest extends FormRequest
     public function rules()
     {
         return [
-            'date_id' => [
-                'required',
-                'integer',
-            ],
+            // 'date_id' => [
+            //     'required',
+            //     'integer',
+            // ],
         ];
     }
 }

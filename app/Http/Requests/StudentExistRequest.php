@@ -24,7 +24,7 @@ class StudentExistRequest extends FormRequest
     public function rules()
     {
         return [
-            'student_id' => 'required|exists:students,student_id',
+            // 'student_id' => 'required|exists:students,student_id',
         ];
     }
 }

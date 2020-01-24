@@ -37,10 +37,13 @@
                                         {{ trans('cruds.bookDate.fields.date') }}
                                     </th>
                                     <th>
-                                        &nbsp;
+                                        Operations
                                     </th>
                                     <th>
                                         Book Date
+                                    </th>
+                                    <th>
+                                        Status
                                     </th>
                                 </tr>
                             </thead>
@@ -62,21 +65,22 @@
                                             <td>
                                                 {{ $student->studentBookDate->date->available_date ?? '' }}
                                             </td>
+                                            @if(!empty($student->studentBookDate->book_date_id))
                                             <td>
                                                 @can('book_date_show')
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $student->id) }}">
+                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $student->student_id) }}">
                                                         {{ trans('global.view') }}
                                                     </a>
                                                 @endcan
 
                                                 @can('book_date_edit')
-                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $student->id) }}">
+                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $student->student_id) }}">
                                                         {{ trans('global.edit') }}
                                                     </a>
                                                 @endcan
 
                                                 @can('book_date_delete')
-                                                    <form action="{{ route('admin.book-dates.destroy', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                    <form action="{{ route('admin.book-dates.destroy', $student->student_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -84,13 +88,19 @@
                                                 @endcan
 
                                             </td>
+                                            @else
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                            @endif
+                                            @if(empty($student->studentBookDate->book_date_id))
                                             <td>
                                                 @can('book_date_create')
                                                     <div style="margin-bottom: 10px;" class="row">
                                                         <div class="col-lg-12">
-                                                            <form action="{{ route('admin.book-dates.create') }}">
+                                                            <form action="{{ route('admin.book-dates.create',$student->student_id) }}">
                                                                 @csrf
-                                                                <input type="hidden" name="student_id" value="{{$student->student_id}}">
+                                                                {{-- <input type="hidden" name="student_id" value="{{$student->student_id}}"> --}}
                                                                 <button type="submit" class="btn btn-success">
                                                                     {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
                                                                 </button> 
@@ -99,6 +109,32 @@
                                                     </div>
                                                 @endcan
                                             </td>
+                                            @else
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            @endif
+                                            @if(empty($student->studentBookDate->book_date_id))
+                                            <td>
+                                                @can('book_date_status')
+                                                    <div style="margin-bottom: 10px;" class="row">
+                                                        <div class="col-lg-12">
+                                                            <form action="{{ route('admin.book-dates.create',$student->student_id) }}">
+                                                                @csrf
+                                                                {{-- <input type="hidden" name="student_id" value="{{$student->student_id}}"> --}}
+                                                                <button type="submit" class="btn btn-success">
+                                                                    {{ trans('global.addconductor_delete') }} {{ trans('cruds.bookDate.title_singular') }}
+                                                                </button> 
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @endcan
+                                            </td>
+                                            @else
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            @endif
                                         </tr>
                                 @endforeach
                             </tbody>

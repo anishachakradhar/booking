@@ -17,20 +17,20 @@
                         </div>
                         <table class="table table-bordered table-striped">
                             <tbody>
-                                <tr>
+                                {{-- <tr>
                                     <th>
                                         {{ trans('cruds.bookDate.fields.id') }}
                                     </th>
                                     <td>
-                                        {{ $bookDate->id }}
+                                        {{ $bookDateId->id }}
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th>
                                         {{ trans('cruds.bookDate.fields.name') }}
                                     </th>
                                     <td>
-                                        {{ $bookDate->student->name ?? '' }}
+                                        {{ $student->name ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -38,7 +38,7 @@
                                         {{ trans('cruds.bookDate.fields.email') }}
                                     </th>
                                     <td>
-                                        {{ $bookDate->student->email ?? '' }}
+                                        {{ $student->email ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -46,7 +46,7 @@
                                         {{ trans('cruds.bookDate.fields.date') }}
                                     </th>
                                     <td>
-                                        {{ $bookDate->date->available_date ?? '' }}
+                                        {{ $student->studentBookDate->date->available_date ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>

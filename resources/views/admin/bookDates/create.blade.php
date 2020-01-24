@@ -9,7 +9,7 @@
                     {{ trans('global.create') }} {{ trans('cruds.bookDate.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="{{ route("admin.book-dates.store")}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route("admin.book-dates.store", $student_id)}}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" value="{{$student_id}}" name="student_id">
                         <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">

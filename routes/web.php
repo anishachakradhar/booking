@@ -34,7 +34,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Book Dates
     Route::delete('book-dates/destroy', 'BookDateController@massDestroy')->name('book-dates.massDestroy');
-    Route::resource('book-dates', 'BookDateController');
+    Route::get('book-dates/edit/{id}','BookDateController@edit')->name('book-dates.edit');
+    Route::patch('book-dates/update/{id}','BookDateController@update')->name('book-dates.update');
+    Route::get('book-dates/show/{id}','BookDateController@show')->name('book-dates.show');
+    Route::delete('book-dates/{id}','BookDateController@destroy')->name('book-dates.destroy');
+    Route::get('book-dates/create/{id}', 'BookDateController@create')->name('book-dates.create');
+    Route::post('book-dates/store/{id}', 'BookDateController@store')->name('book-dates.store');
+    Route::get('book-dates','BookDateController@index')->name('book-dates.index');
 
     // Excel Reports
     Route::delete('excel-reports/destroy', 'ExcelReportController@massDestroy')->name('excel-reports.massDestroy');

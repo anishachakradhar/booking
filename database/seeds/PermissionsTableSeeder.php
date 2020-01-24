@@ -220,6 +220,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '53',
                 'title' => 'conductor_delete',
             ],
+            [
+                'id'    => '54',
+                'title' => 'book_date_status',
+            ]
         ];
 
         Permission::insert($permissions);
