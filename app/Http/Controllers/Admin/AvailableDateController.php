@@ -58,7 +58,7 @@ class AvailableDateController extends Controller
     {
         abort_if(Gate::denies('available_date_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $availableDate->load('locationExcelReports', 'dateBookDates');
+        $availableDate->load('dateBookDates');
 
         return view('admin.availableDates.show', compact('availableDate'));
     }

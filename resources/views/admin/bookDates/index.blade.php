@@ -1,15 +1,6 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
-    {{-- @can('book_date_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route("admin.book-dates.create") }}">
-                    {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
-                </a>
-            </div>
-        </div>
-    @endcan --}}
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -100,7 +91,6 @@
                                                         <div class="col-lg-12">
                                                             <form action="{{ route('admin.book-dates.create',$student->student_id) }}">
                                                                 @csrf
-                                                                {{-- <input type="hidden" name="student_id" value="{{$student->student_id}}"> --}}
                                                                 <button type="submit" class="btn btn-success">
                                                                     {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
                                                                 </button> 
@@ -118,9 +108,25 @@
                                             <td>
                                                 @can('book_date_status')
                                                     @if(!empty($student->studentBookDate->payment->status))
-                                                        <span>{{$student->studentBookDate->payment->status}}</span>
+                                                        @if($student->studentBookDate->payment->status == 'pending') 
+                                                            <span>Pending</span>    
+                                                        @elseif($student->studentBookDate->payment->status == 'approved')
+                                                            <span>Approved</span>
+                                                        @elseif($student->studentBookDate->payment->status == 'changed_date')
+                                                            <span>Changed Date</span>
+                                                        @elseif($student->studentBookDate->payment->status == 'cancelled')
+                                                            <span>Cancelled</span>
+                                                        @endif
                                                     @else
-                                                        <span>{{$student->status}}</span>
+                                                        @if($student->status == 'pending') 
+                                                            <span>Pending</span>    
+                                                        @elseif($student->status == 'approved')
+                                                            <span>Approved</span>
+                                                        @elseif($student->status == 'changed_date')
+                                                            <span>Changed Date</span>
+                                                        @elseif($student->status == 'cancelled')
+                                                            <span>Cancelled</span>
+                                                        @endif
                                                     @endif
                                                     <a class="btn btn-xs btn-info" href="{{ route('admin.payments.create', $student->studentBookDate->book_date_id) }}">
                                                         {{ trans('global.edit') }}

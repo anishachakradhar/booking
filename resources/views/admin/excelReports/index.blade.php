@@ -1,15 +1,6 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
-    @can('excel_report_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route("admin.excel-reports.create") }}">
-                    {{ trans('global.add') }} {{ trans('cruds.excelReport.title_singular') }}
-                </a>
-            </div>
-        </div>
-    @endcan
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -21,9 +12,6 @@
                         <table class=" table table-bordered table-striped table-hover datatable datatable-ExcelReport">
                             <thead>
                                 <tr>
-                                    <th width="10">
-
-                                    </th>
                                     <th>
                                         {{ trans('cruds.excelReport.fields.id') }}
                                     </th>
@@ -55,70 +43,49 @@
                                         {{ trans('cruds.excelReport.fields.module') }}
                                     </th>
                                     <th>
-                                        &nbsp;
+                                        {{ trans('cruds.bookDate.fields.date') }}
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($excelReports as $key => $excelReport)
-                                    <tr data-entry-id="{{ $excelReport->id }}">
+                                @foreach($students as $key => $student)
+                                @if($student->status == 'approved')
+                                    <tr data-entry-id="{{ $student->id }}">
                                         <td>
-
+                                            {{ $index++ }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->id ?? '' }}
+                                            {{ $student->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->name->name ?? '' }}
+                                            {{ $student->email ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->email->email ?? '' }}
+                                            {{ $student->phone ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->phone->phone ?? '' }}
+                                            {{ $student->dob ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->dob->dob ?? '' }}
+                                            {{ $student->address ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->address->address ?? '' }}
+                                            {{ $student->consultancy_name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->consultancy_name->consultancy_name ?? '' }}
+                                            {{ $student->location->location ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->location->name ?? '' }}
+                                            {{ $student->conductor->conductor ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->conductor->conductor ?? '' }}
+                                            {{ $student->module->module ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $excelReport->module->module ?? '' }}
+                                            {{ $student->studentBookDate->date->available_date}}
                                         </td>
-                                        <td>
-                                            @can('excel_report_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('admin.excel-reports.show', $excelReport->id) }}">
-                                                    {{ trans('global.view') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('excel_report_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('admin.excel-reports.edit', $excelReport->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('excel_report_delete')
-                                                <form action="{{ route('admin.excel-reports.destroy', $excelReport->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                </form>
-                                            @endcan
-
-                                        </td>
-
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -168,7 +135,7 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'asc' ]],
+    order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
   $('.datatable-ExcelReport:not(.ajaxTable)').DataTable({ buttons: dtButtons })

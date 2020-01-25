@@ -23,7 +23,7 @@ class BookDateController extends Controller
         abort_if(Gate::denies('book_date_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $students = Student::all();
-
+    
         // dd($students->toArray());
 
         return view('admin.bookDates.index', compact('students'));

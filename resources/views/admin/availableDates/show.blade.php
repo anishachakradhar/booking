@@ -50,20 +50,12 @@
                 </div>
                 <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
                     <li role="presentation">
-                        <a href="#location_excel_reports" aria-controls="location_excel_reports" role="tab" data-toggle="tab">
-                            {{ trans('cruds.excelReport.title') }}
-                        </a>
-                    </li>
-                    <li role="presentation">
                         <a href="#date_book_dates" aria-controls="date_book_dates" role="tab" data-toggle="tab">
                             {{ trans('cruds.bookDate.title') }}
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane" role="tabpanel" id="location_excel_reports">
-                        @includeIf('admin.availableDates.relationships.locationExcelReports', ['excelReports' => $availableDate->locationExcelReports])
-                    </div>
                     <div class="tab-pane" role="tabpanel" id="date_book_dates">
                         @includeIf('admin.availableDates.relationships.dateBookDates', ['bookDates' => $availableDate->dateBookDates])
                     </div>

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ExcelReport;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyExcelReportRequest;
-use App\Http\Requests\StoreExcelReportRequest;
-use App\Http\Requests\UpdateExcelReportRequest;
 use Gate;
+use App\Student;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExcelReportController extends Controller
@@ -17,63 +14,44 @@ class ExcelReportController extends Controller
     {
         abort_if(Gate::denies('excel_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $excelReports = ExcelReport::all();
+        $students = Student::all();
+        $index = 1;
 
-        return view('admin.excelReports.index', compact('excelReports'));
+        return view('admin.excelReports.index', compact('students', 'index'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('excel_report_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.excelReports.create');
+        //
     }
 
-    public function store(StoreExcelReportRequest $request)
+    public function store()
     {
-        $excelReport = ExcelReport::create($request->all());
-
-        return redirect()->route('admin.excel-reports.index');
+        //
     }
 
-    public function edit(ExcelReport $excelReport)
+    public function edit()
     {
-        abort_if(Gate::denies('excel_report_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $excelReport->load('name', 'email', 'phone', 'dob', 'address', 'consultancy_name', 'location', 'conductor', 'module');
-
-        return view('admin.excelReports.edit', compact('excelReport'));
+        //
     }
 
-    public function update(UpdateExcelReportRequest $request, ExcelReport $excelReport)
+    public function update()
     {
-        $excelReport->update($request->all());
-
-        return redirect()->route('admin.excel-reports.index');
+        //
     }
 
-    public function show(ExcelReport $excelReport)
+    public function show()
     {
-        abort_if(Gate::denies('excel_report_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $excelReport->load('name', 'email', 'phone', 'dob', 'address', 'consultancy_name', 'location', 'conductor', 'module');
-
-        return view('admin.excelReports.show', compact('excelReport'));
+        //
     }
 
-    public function destroy(ExcelReport $excelReport)
+    public function destroy()
     {
-        abort_if(Gate::denies('excel_report_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $excelReport->delete();
-
-        return back();
+        //
     }
 
-    public function massDestroy(MassDestroyExcelReportRequest $request)
+    public function massDestroy()
     {
-        ExcelReport::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
+        //
     }
 }

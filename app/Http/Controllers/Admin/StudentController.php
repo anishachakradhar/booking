@@ -97,7 +97,6 @@ class StudentController extends Controller
         abort_if(Gate::denies('student_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $student->load('location', 'module', 'conductor');
-        // $student->load('location', 'module', 'conductor', 'nameExcelReports', 'emailExcelReports', 'phoneExcelReports', 'dobExcelReports', 'studentsEmailBookDates', 'addressExcelReports', 'consultancyNameExcelReports', 'locationExcelReports', 'conductorExcelReports', 'moduleExcelReports');
 
         return view('admin.students.show', compact('student'));
     }

@@ -27,11 +27,6 @@ class AvailableDate extends Model
         'deleted_at',
     ];
 
-    public function locationExcelReports()
-    {
-        return $this->hasMany(ExcelReport::class, 'location_id', 'id');
-    }
-
     public function dateBookDates()
     {
         return $this->hasMany(BookDate::class, 'available_date_id', 'available_date_id');

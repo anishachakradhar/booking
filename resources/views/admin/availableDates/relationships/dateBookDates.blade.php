@@ -1,13 +1,4 @@
 <div class="content">
-    @can('book_date_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route("admin.book-dates.create") }}">
-                    {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
-                </a>
-            </div>
-        </div>
-    @endcan
     <div class="row">
         <div class="col-lg-12">
 
@@ -28,7 +19,7 @@
                                         {{ trans('cruds.bookDate.fields.id') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.students_email') }}
+                                        {{ trans('cruds.bookDate.fields.email') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.bookDate.fields.date') }}
@@ -48,7 +39,7 @@
                                             {{ $bookDate->id ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $bookDate->students_email->email ?? '' }}
+                                            {{ $bookDate->student->email ?? '' }}
                                         </td>
                                         <td>
                                             {{ $bookDate->date->available_date ?? '' }}

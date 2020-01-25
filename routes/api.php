@@ -16,10 +16,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Book Dates
     Route::apiResource('book-dates', 'BookDateApiController');
-
-    // Excel Reports
-    Route::apiResource('excel-reports', 'ExcelReportApiController');
-
+    
     // Locations
     Route::apiResource('locations', 'LocationApiController');
 
