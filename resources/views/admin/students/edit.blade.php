@@ -132,8 +132,8 @@
                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
                             <label class="required" for="location_id">{{ trans('cruds.student.fields.location') }}</label>
                             <select class="form-control select2" name="location_id" id="location_id" required>
-                                @foreach($locations as $id => $location)
-                                    <option value="{{ $id }}" {{ ($student->location ? $student->location->id : old('location_id')) == $id ? 'selected' : '' }}>{{ $location }}</option>
+                                @foreach($locations as $location_id => $location)
+                                    <option value="{{ $location_id }}" {{ ($student->location ? $student->location->location_id : old('location_id')) == $location_id ? 'selected' : '' }}>{{ $location }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('location_id'))

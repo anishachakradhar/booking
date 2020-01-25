@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyStudentRequest;
-use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
-use App\Location;
-use App\Student;
 use Gate;
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Models\Media;
-use Symfony\Component\HttpFoundation\Response;
 use App\Module;
+use App\Payment;
+use App\Student;
+use App\Location;
 use App\Conductor;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Spatie\MediaLibrary\Models\Media;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\MassDestroyStudentRequest;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 
 class StudentController extends Controller
 {
@@ -82,6 +83,11 @@ class StudentController extends Controller
         } elseif ($student->passport_photo) {
             $student->passport_photo->delete();
         }
+
+        $payment = Payment::where('book_date_id',$student->studentBookDate->book_date_id);
+        $payment->update([
+            'status' => $student->status,
+        ]);
 
         return redirect()->route('admin.students.index');
     }

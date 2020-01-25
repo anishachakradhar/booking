@@ -223,6 +223,10 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => '54',
                 'title' => 'book_date_status',
+            ],
+            [
+                'id'    => '55',
+                'title' => 'payment_create',
             ]
         ];
 

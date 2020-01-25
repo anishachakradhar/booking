@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AvailableDate;
+use Gate;
+use App\Payment;
+use App\Student;
 use App\BookDate;
+use App\AvailableDate;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyBookDateRequest;
+use App\Http\Requests\StudentExistRequest;
 use App\Http\Requests\StoreBookDateRequest;
 use App\Http\Requests\UpdateBookDateRequest;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Str;
-use App\Student;
-use App\Http\Requests\StudentExistRequest;
+use App\Http\Requests\MassDestroyBookDateRequest;
 
 class BookDateController extends Controller
 {
@@ -45,6 +46,12 @@ class BookDateController extends Controller
             'book_date_id' => Str::random(5),
             'available_date_id' => $request->available_date_id,
             'student_id' => $id,
+        ]);
+
+        $payment = Payment::create([
+            'status' => $bookDate->student->status,
+            'payment_id' => Str::random(5),
+            'book_date_id' => $bookDate->book_date_id,
         ]);
 
         return redirect()->route('admin.book-dates.index');
@@ -88,7 +95,12 @@ class BookDateController extends Controller
     {
         abort_if(Gate::denies('book_date_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $bookDate = BookDate::where('student_id',$id)->first();
-        $bookDate->delete();
+        $payment = Payment::where('book_date_id',$bookDate->payment->book_date_id)->first();
+        $bookDateData = $bookDate->delete();
+        if($bookDateData == true)
+        {
+            $payment->delete();
+        }
 
         return back();
     }

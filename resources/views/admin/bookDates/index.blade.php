@@ -114,20 +114,17 @@
                                                 &nbsp;
                                             </td>
                                             @endif
-                                            @if(empty($student->studentBookDate->book_date_id))
+                                            @if(!empty($student->studentBookDate->book_date_id))
                                             <td>
                                                 @can('book_date_status')
-                                                    <div style="margin-bottom: 10px;" class="row">
-                                                        <div class="col-lg-12">
-                                                            <form action="{{ route('admin.book-dates.create',$student->student_id) }}">
-                                                                @csrf
-                                                                {{-- <input type="hidden" name="student_id" value="{{$student->student_id}}"> --}}
-                                                                <button type="submit" class="btn btn-success">
-                                                                    {{ trans('global.addconductor_delete') }} {{ trans('cruds.bookDate.title_singular') }}
-                                                                </button> 
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                                                    @if(!empty($student->studentBookDate->payment->status))
+                                                        <span>{{$student->studentBookDate->payment->status}}</span>
+                                                    @else
+                                                        <span>{{$student->status}}</span>
+                                                    @endif
+                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.payments.create', $student->studentBookDate->book_date_id) }}">
+                                                        {{ trans('global.edit') }}
+                                                    </a>
                                                 @endcan
                                             </td>
                                             @else

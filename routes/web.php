@@ -61,4 +61,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Available Dates
     Route::delete('available-dates/destroy', 'AvailableDateController@massDestroy')->name('available-dates.massDestroy');
     Route::resource('available-dates', 'AvailableDateController');
+
+    //Payments
+    Route::get('payments/create/{id}', 'PaymentController@create')->name('payments.create');
+    Route::post('payment/store/{id}','PaymentController@store')->name('payments.store');
 });
+
+

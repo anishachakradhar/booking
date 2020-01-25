@@ -35,4 +35,9 @@ class BookDate extends Model
     {
         return $this->belongsTo(AvailableDate::class, 'available_date_id','available_date_id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'book_date_id','book_date_id');
+    }
 }
