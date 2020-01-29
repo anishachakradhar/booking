@@ -22,6 +22,8 @@ class AvailableDate extends Model
     protected $fillable = [
         'available_date',
         'available_date_id',
+        'available_seat',
+        'available_date_status',
         'updated_at',
         'created_at',
         'deleted_at',

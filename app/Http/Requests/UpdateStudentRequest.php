@@ -54,9 +54,6 @@ class UpdateStudentRequest extends FormRequest
             'location_id'     => [
                 'required',
             ],
-            'status'          => [
-                'required',
-            ],
         ];
     }
 }

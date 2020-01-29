@@ -31,6 +31,12 @@
                                         {{ trans('cruds.availableDate.fields.available_date') }}
                                     </th>
                                     <th>
+                                        Available Seat
+                                    </th>
+                                    <th>
+                                        Available Date Status
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -46,6 +52,24 @@
                                         </td>
                                         <td>
                                             {{ $availableDate->available_date ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $availableDate->available_seat ?? '' }}
+                                        </td>
+                                        <td>
+                                            @if($availableDate->available_date_status == 'active')
+                                            <a class="btn btn-xs btn-success">
+                                                Active
+                                            </a>                                            
+                                            @elseif($availableDate->available_date_status == 'disabled')
+                                            <a class="btn btn-xs btn-orange">
+                                                Disabled
+                                            </a>                                            
+                                            @elseif($availableDate->available_date_status == 'not_available')
+                                            <a class="btn btn-xs btn-grey">
+                                                Not Available
+                                            </a>                                            
+                                            @endif
                                         </td>
                                         <td>
                                             @can('available_date_show')
@@ -66,6 +90,22 @@
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
+                                            @endcan
+
+                                            @can('available_date_status')
+                                                @if($availableDate->available_date_status == 'active')
+                                                    <a class="btn btn-xs btn-status" href="{{ route('admin.available-dates.status', $availableDate->id) }}">
+                                                        Disable
+                                                    </a>
+                                                @elseif($availableDate->available_date_status == 'disabled')
+                                                    <a class="btn btn-xs btn-status" href="{{ route('admin.available-dates.status', $availableDate->id) }}">
+                                                        Activate
+                                                    </a>
+                                                {{-- @elseif($availableDate->available_date_status == 'not_available')
+                                                    <a class="btn btn-xs btn-status">
+                                                        Not Available
+                                                    </a> --}}
+                                                @endif
                                             @endcan
 
                                         </td>

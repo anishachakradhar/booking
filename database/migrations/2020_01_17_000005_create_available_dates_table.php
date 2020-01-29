@@ -11,9 +11,13 @@ class CreateAvailableDatesTable extends Migration
         Schema::create('available_dates', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->date('available_date');
+            $table->date('available_date')->unique();
+
+            $table->integer('available_seat')->default(50);
 
             $table->string('available_date_id')->unique();
+
+            $table->string('available_date_status')->default('active');
 
             $table->timestamps();
 

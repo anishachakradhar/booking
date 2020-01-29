@@ -67,14 +67,6 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.student.fields.consultancy_name') }}
-                                    </th>
-                                    <td>
-                                        {{ $student->consultancy_name }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
                                         {{ trans('cruds.student.fields.passport_number') }}
                                     </th>
                                     <td>

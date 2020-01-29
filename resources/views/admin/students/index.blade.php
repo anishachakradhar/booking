@@ -43,9 +43,6 @@
                                         {{ trans('cruds.student.fields.dob') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.student.fields.consultancy_name') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.student.fields.passport_number') }}
                                     </th>
                                     <th>
@@ -93,9 +90,6 @@
                                             {{ $student->dob ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $student->consultancy_name ?? '' }}
-                                        </td>
-                                        <td>
                                             {{ $student->passport_number ?? '' }}
                                         </td>
                                         <td>
@@ -121,7 +115,7 @@
                                             {{ $student->location->location ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Student::STATUS_SELECT[$student->status] ?? '' }}
+                                            {{ $student->status_name ?? '' }}
                                         </td>
                                         <td>
                                             @can('student_show')

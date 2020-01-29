@@ -43,9 +43,6 @@
                                         {{ trans('cruds.student.fields.dob') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.student.fields.consultancy_name') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.student.fields.passport_number') }}
                                     </th>
                                     <th>
@@ -91,9 +88,6 @@
                                         </td>
                                         <td>
                                             {{ $student->dob ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $student->consultancy_name ?? '' }}
                                         </td>
                                         <td>
                                             {{ $student->passport_number ?? '' }}

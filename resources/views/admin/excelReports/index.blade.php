@@ -1,6 +1,19 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
+    @can('excel_report_create')
+        <div style="margin-bottom: 10px;" class="row">
+            <div class="col-lg-12">
+                <a class="btn btn-success" href="{{ route("admin.excel-reports.create") }}">
+                    {{ trans('global.add') }} {{ trans('cruds.excelReport.title_singular') }}
+                </a>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                    {{ trans('global.app_csvImport') }}
+                </button>
+                @include('csvImport.modal', ['model' => 'ExcelReport', 'route' => 'admin.excel-reports.parseCsvImport'])
+            </div>
+        </div>
+    @endcan
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -31,9 +44,6 @@
                                         {{ trans('cruds.excelReport.fields.address') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.consultancy_name') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.excelReport.fields.location') }}
                                     </th>
                                     <th>
@@ -49,7 +59,7 @@
                             </thead>
                             <tbody>
                                 @foreach($students as $key => $student)
-                                @if($student->status == 'approved')
+                                @if($student->status == 'date_booked' || $student->status == 'changed_date'  )
                                     <tr data-entry-id="{{ $student->id }}">
                                         <td>
                                             {{ $index++ }}
@@ -68,9 +78,6 @@
                                         </td>
                                         <td>
                                             {{ $student->address ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $student->consultancy_name ?? '' }}
                                         </td>
                                         <td>
                                             {{ $student->location->location ?? '' }}

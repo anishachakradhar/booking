@@ -27,6 +27,7 @@ class StudentController extends Controller
         abort_if(Gate::denies('student_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $students = Student::all();
+        // dd($students->toArray());
 
         return view('admin.students.index', compact('students'));
     }

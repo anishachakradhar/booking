@@ -227,7 +227,11 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => '55',
                 'title' => 'payment_create',
-            ]
+            ],
+            [
+                'id'    => '56',
+                'title' => 'available_date_status',
+            ],
         ];
 
         Permission::insert($permissions);

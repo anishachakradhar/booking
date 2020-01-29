@@ -60,9 +60,6 @@ class StoreStudentRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'status'          => [
-                'required',
-            ],
         ];
     }
 }

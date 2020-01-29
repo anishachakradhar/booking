@@ -60,3 +60,29 @@ table.dataTable thead .sorting_desc {
     content: " *";
     color: red;
 }
+
+.btn-grey {
+   background-color: #5d5858; 
+   color: white;
+}
+.btn-grey:hover {
+    background-color: #5d5858; 
+    color: white;
+}
+.btn-orange {
+    background-color: #d3770e;
+    color: white;
+    border-color: #d3770e;
+}
+.btn-orange:hover{
+    background-color: #d3770e;
+    color: white;
+}
+.btn-status{
+    background-color: #2fa8a8;
+    color: white;
+}
+.btn-status:hover{
+    background-color: #289292;
+    color: white;
+}

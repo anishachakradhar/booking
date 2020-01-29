@@ -26,21 +26,17 @@ class Student extends Model implements HasMedia
         'deleted_at',
     ];
 
-    const CONDUCTOR_SELECT = [
-        'bc'  => 'British Council',
-        'idp' => 'IDP',
-    ];
-
-    // const MODULE_SELECT = [
-    //     'academic' => 'IELTS Academic',
-    //     'general'  => 'IELTS General Training',
-    // ];
-
     const STATUS_SELECT = [
         'pending'      => 'Pending',
-        'approved'     => 'Approved',
-        'cancelled'    => 'Cancelled',
+        'date_booked'     => 'Date Booked',
         'changed_date' => 'Changed Date',
+        'awaiting_consultancy_confirmation' => 'Awaiting Consultancy Confirmation',
+        'awaiting_date_booking' =>  'Awaiting Date Booking',
+        'booking_held'  =>  'Booking Held',
+        'awaiting_refund'   =>  'Awaiting Refund',
+        'refunded'  =>  'Refunded',
+        'processing_refund' =>  'Processing Refund',
+        'cancelled'    => 'Cancelled',
     ];
 
     protected $fillable = [
@@ -54,7 +50,6 @@ class Student extends Model implements HasMedia
         'updated_at',
         'deleted_at',
         'passport_number',
-        'consultancy_name',
         'location_id',
         'module_id',
         'conductor_id',
@@ -104,5 +99,9 @@ class Student extends Model implements HasMedia
     public function studentBookDate()
     {
         return $this->hasOne(BookDate::class, 'student_id', 'student_id');
+    }
+    public function getStatusNameAttribute()
+    { 
+        return self::STATUS_SELECT[$this->status];
     }
 }

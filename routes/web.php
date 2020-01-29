@@ -45,6 +45,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Excel Reports
     Route::delete('excel-reports/destroy', 'ExcelReportController@massDestroy')->name('excel-reports.massDestroy');
     Route::resource('excel-reports', 'ExcelReportController');
+    Route::post('excel-reports/parse-csv-import', 'ExcelReportController@parseCsvImport')->name('excel-reports.parseCsvImport');
+    Route::post('excel-reports/process-csv-import', 'ExcelReportController@processCsvImport')->name('excel-reports.processCsvImport');
 
     // Locations
     Route::delete('locations/destroy', 'LocationController@massDestroy')->name('locations.massDestroy');
@@ -61,6 +63,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Available Dates
     Route::delete('available-dates/destroy', 'AvailableDateController@massDestroy')->name('available-dates.massDestroy');
     Route::resource('available-dates', 'AvailableDateController');
+    Route::get('available-dates/status/{id}', 'AvailableDateController@status')->name('available-dates.status');
 
     //Payments
     Route::get('payments/create/{id}', 'PaymentController@create')->name('payments.create');

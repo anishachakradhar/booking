@@ -78,4 +78,23 @@ class AvailableDateController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function status($id)
+    {
+        $availableDate = AvailableDate::where('id',$id)->first();
+        if($availableDate->available_date_status == 'active')
+        {   
+            $availableDate->update([
+                'available_date_status' => 'disabled',
+            ]);
+        }
+        else
+        {
+            $availableDate->update([
+                'available_date_status' => 'active',
+            ]);
+        }
+        
+        return redirect()->route('admin.available-dates.index');
+    }
 }

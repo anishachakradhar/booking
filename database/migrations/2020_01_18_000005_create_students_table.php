@@ -21,9 +21,7 @@ class CreateStudentsTable extends Migration
 
             $table->string('address');
 
-            $table->string('consultancy_name')->nullable();
-
-            $table->string('status');
+            $table->string('status')->default('pending');
 
             $table->integer('passport_number');
 

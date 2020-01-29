@@ -34,9 +34,7 @@ class BookDateController extends Controller
         abort_if(Gate::denies('book_date_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $student_id = $id;
-
-        $dates = AvailableDate::all()->pluck('available_date', 'available_date_id')->prepend(trans('global.pleaseSelect'), '');
-
+        $dates = AvailableDate::all();
         return view('admin.bookDates.create', compact(['dates', 'student_id']));
     }
 
@@ -54,14 +52,39 @@ class BookDateController extends Controller
             'book_date_id' => $bookDate->book_date_id,
         ]);
 
+        if(!empty($bookDate))
+        {
+            $availableDate = AvailableDate::where('available_date_id',$bookDate->available_date_id)->first();
+            $count = $availableDate->available_seat;
+            if($count > 0)
+            {   
+                $count--;
+                $availableDate->update([
+                    'available_seat' => $count,
+                ]);
+                if($count == 0)
+                {
+                    $availableDate->update([
+                        'available_date_status' => 'not_available',
+                    ]);
+                }
+            }
+            // elseif($count == 0)
+            // {
+            //     $availableDate->update([
+            //         'available_date_status' => 'not_available',
+            //     ]);
+            // }
+        }
+
         return redirect()->route('admin.book-dates.index');
     }
 
     public function edit(BookDate $bookDate, $id)
     {
         abort_if(Gate::denies('book_date_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $dates = AvailableDate::all()->pluck('available_date', 'available_date_id')->prepend(trans('global.pleaseSelect'), '');
+        
+        $dates = AvailableDate::all();
 
         $bookDate->load('student', 'date');
 
@@ -76,6 +99,19 @@ class BookDateController extends Controller
         $bookDate->update([
             'available_date_id' => $request->available_date_id,
         ]);
+
+        $paymentStatus = Payment::where('book_date_id',$bookDate->book_date_id)->first();
+        $studentStatus = Student::where('student_id',$paymentStatus->bookDatePayment->student->student_id)->first();
+
+        if($studentStatus->status == 'approved')
+        {
+            $paymentStatus->update([
+                'status' => 'changed_date',
+            ]);
+            $studentStatus->update([
+                'status' => 'changed_date',
+            ]);
+        }
 
         return redirect()->route('admin.book-dates.index');
     }

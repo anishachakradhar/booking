@@ -15,8 +15,10 @@
                         <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
                             <label class="required" for="available_date_id">{{ trans('cruds.bookDate.fields.date') }}</label>
                             <select class="form-control select2" name="available_date_id" id="available_date_id" required>
-                                @foreach($dates as $available_date_id => $date)
-                                    <option value="{{ $available_date_id }}" {{ old('available_date_id') == $available_date_id ? 'selected' : '' }}>{{ $date }}</option>
+                                @foreach($dates as $date)
+                                    @if($date->available_date_status == 'active')
+                                        <option value="{{ $date->available_date_id }}" {{ old('available_date_id') == $date->available_date_id ? 'selected' : '' }}>{{ $date->available_date }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @if($errors->has('available_date_id'))

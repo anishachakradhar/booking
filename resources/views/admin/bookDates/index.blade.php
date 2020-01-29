@@ -28,7 +28,7 @@
                                         {{ trans('cruds.bookDate.fields.date') }}
                                     </th>
                                     <th>
-                                        Operations
+                                        &nbsp;
                                     </th>
                                     <th>
                                         Book Date
@@ -108,25 +108,7 @@
                                             <td>
                                                 @can('book_date_status')
                                                     @if(!empty($student->studentBookDate->payment->status))
-                                                        @if($student->studentBookDate->payment->status == 'pending') 
-                                                            <span>Pending</span>    
-                                                        @elseif($student->studentBookDate->payment->status == 'approved')
-                                                            <span>Approved</span>
-                                                        @elseif($student->studentBookDate->payment->status == 'changed_date')
-                                                            <span>Changed Date</span>
-                                                        @elseif($student->studentBookDate->payment->status == 'cancelled')
-                                                            <span>Cancelled</span>
-                                                        @endif
-                                                    @else
-                                                        @if($student->status == 'pending') 
-                                                            <span>Pending</span>    
-                                                        @elseif($student->status == 'approved')
-                                                            <span>Approved</span>
-                                                        @elseif($student->status == 'changed_date')
-                                                            <span>Changed Date</span>
-                                                        @elseif($student->status == 'cancelled')
-                                                            <span>Cancelled</span>
-                                                        @endif
+                                                        {{ $student->status_name }}
                                                     @endif
                                                     <a class="btn btn-xs btn-info" href="{{ route('admin.payments.create', $student->studentBookDate->book_date_id) }}">
                                                         {{ trans('global.edit') }}
