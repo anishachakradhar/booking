@@ -58,6 +58,9 @@
                                         {{ trans('cruds.student.fields.location') }}
                                     </th>
                                     <th>
+                                        Payment Status
+                                    </th>
+                                    <th>
                                         {{ trans('cruds.student.fields.status') }}
                                     </th>
                                     <th>
@@ -113,6 +116,9 @@
                                         </td>
                                         <td>
                                             {{ $student->location->location ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $student->payment->status_name ?? '' }}
                                         </td>
                                         <td>
                                             {{ $student->status_name ?? '' }}

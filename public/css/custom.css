@@ -86,3 +86,12 @@ table.dataTable thead .sorting_desc {
     background-color: #289292;
     color: white;
 }
+
+.body-wrapper{
+    background-color: #ececec;
+}
+
+.btn-blue {
+    background-color: #2870e4;
+    color: white !important;
+}

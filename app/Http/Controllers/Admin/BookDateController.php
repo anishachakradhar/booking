@@ -24,8 +24,6 @@ class BookDateController extends Controller
 
         $students = Student::all();
     
-        // dd($students->toArray());
-
         return view('admin.bookDates.index', compact('students'));
     }
 

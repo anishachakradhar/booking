@@ -68,6 +68,34 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Payments
     Route::get('payments/create/{id}', 'PaymentController@create')->name('payments.create');
     Route::post('payment/store/{id}','PaymentController@store')->name('payments.store');
+
 });
 
+Route::group(['prefix' => 'student', 'as' => 'student.', 'namespace' => 'Frontend'], function () {
+
+    //Student
+    //Entry-form
+    Route::get('entry-form','EntryFormController@create')->name('entry-form');
+    Route::post('entry-form/store','EntryFormController@store')->name('entry-form.store');
+    Route::get('entry-form/edit/{id}','EntryFormController@edit')->name('entry-form.edit');
+    Route::put('entry-form/update/{id}','EntryFormController@update')->name('entry-form.update');
+
+    //Book-date
+    Route::get('date-booking/{id}','DateBookingController@create')->name('date-booking');
+    Route::post('date-booking/store/{id}','DateBookingController@store')->name('date-booking.store');
+
+
+    //Payment
+    Route::get('date-payment/{id}','DatePaymentController@create')->name('date-payment');
+    Route::post('date-payment/{id}','DatePaymentController@store')->name('date-payment.store');
+
+    Route::get('payment','DatePaymentController@index')->name('payment');
+
+    Route::post('verification','DatePaymentController@verification')->name('date-payment.verification');
+
+    Route::get('test', 'DatePaymentController@test');
+
+
+
+});
 

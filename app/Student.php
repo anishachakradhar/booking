@@ -27,7 +27,7 @@ class Student extends Model implements HasMedia
     ];
 
     const STATUS_SELECT = [
-        'pending'      => 'Pending',
+        'pending'      => 'Pending Approval',
         'date_booked'     => 'Date Booked',
         'changed_date' => 'Changed Date',
         'awaiting_consultancy_confirmation' => 'Awaiting Consultancy Confirmation',
@@ -103,5 +103,9 @@ class Student extends Model implements HasMedia
     public function getStatusNameAttribute()
     { 
         return self::STATUS_SELECT[$this->status];
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class,'student_id','student_id');
     }
 }
