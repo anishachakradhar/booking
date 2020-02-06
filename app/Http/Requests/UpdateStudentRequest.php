@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Student;
 use Gate;
+use App\Student;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,7 +25,7 @@ class UpdateStudentRequest extends FormRequest
             ],
             'email'           => [
                 'required',
-                'unique:students,email,' . request()->route('student')->id,
+                Rule::unique('students', 'email')->ignore($this->id, 'book_date_id'),
             ],
             'phone'           => [
                 'required',

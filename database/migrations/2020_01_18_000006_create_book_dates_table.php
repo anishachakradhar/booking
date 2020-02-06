@@ -17,9 +17,9 @@ class CreateBookDatesTable extends Migration
 
             $table->foreign('available_date_id')->references('available_date_id')->on('available_dates');
 
-            $table->string('student_id');
+            $table->string('book_date_status')->default('pending');
 
-            $table->foreign('student_id')->references('student_id')->on('students');
+            $table->string('payment_status')->default('unpaid');
 
             $table->timestamps();
 

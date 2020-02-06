@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
-    @can('student_create')
+    {{-- @can('student_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route("admin.students.create") }}">
@@ -9,7 +9,7 @@
                 </a>
             </div>
         </div>
-    @endcan
+    @endcan --}}
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -58,10 +58,13 @@
                                         {{ trans('cruds.student.fields.location') }}
                                     </th>
                                     <th>
+                                        Date Booked
+                                    </th>
+                                    <th>
                                         Payment Status
                                     </th>
                                     <th>
-                                        {{ trans('cruds.student.fields.status') }}
+                                        Date Booked Status
                                     </th>
                                     <th>
                                         &nbsp;
@@ -102,12 +105,6 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        {{-- <td>
-                                            {{ App\Student::CONDUCTOR_SELECT[$student->conductor] ?? '' }}
-                                        </td> --}}
-                                        {{-- <td>
-                                            {{ App\Student::MODULE_SELECT[$student->module] ?? '' }}
-                                        </td> --}}
                                         <td>
                                             {{ $student->conductor->conductor ?? '' }}
                                         </td>
@@ -118,26 +115,38 @@
                                             {{ $student->location->location ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $student->payment->status_name ?? '' }}
+                                            {{ $student->studentBookDate->date->available_date ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $student->status_name ?? '' }}
+                                            @if($student->studentBookDate->payment_status == 'unpaid')
+                                                <span>Unpaid</span>
+                                            @elseif($student->studentBookDate->payment_status == 'paid')
+                                                <span>Paid</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @can('book_date_status')
+                                                {{ $student->studentBookDate->status_name ?? '' }}
+                                                <a class="btn btn-xs btn-info" href="{{ route('admin.status.create', $student->studentBookDate->book_date_id) }}">
+                                                    {{ trans('global.edit') }}
+                                                </a>
+                                            @endcan
                                         </td>
                                         <td>
                                             @can('student_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('admin.students.show', $student->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('admin.students.show', $student->book_date_id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('student_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('admin.students.edit', $student->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('admin.students.edit', $student->book_date_id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
 
                                             @can('student_delete')
-                                                <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                <form action="{{ route('admin.students.destroy', $student->book_date_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">

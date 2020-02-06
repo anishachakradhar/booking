@@ -9,17 +9,13 @@
                     {{ trans('global.create') }} {{ trans('cruds.student.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    @if(empty($student))
-                        <form method="POST" action="{{ route("student.entry-form.store") }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('student.entry-form.store', $book_date_id) }}" enctype="multipart/form-data">
                             @method('POST')
-                    @else
-                        <form method="PUT" action="{{ route("student.entry-form.update", $student->student_id) }}" enctype="multipart/form-data">
-                            @method('PUT')
-                    @endif
                             @csrf
+                            <input type="hidden" name="book_date_id" value="{{ $book_date_id }}">
                             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                 <label class="required" for="name">{{ trans('cruds.student.fields.name') }}</label>
-                                <input class="form-control" type="text" name="name" id="name" value="{{ isset($student)? old('name', $student->name) : '' }}" required>
+                                <input class="form-control" type="text" name="name" id="name" required>
                                 @if($errors->has('name'))
                                     <span class="help-block" role="alert">{{ $errors->first('name') }}</span>
                                 @endif
@@ -27,7 +23,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                                 <label class="required" for="email">{{ trans('cruds.student.fields.email') }}</label>
-                                <input class="form-control" type="text" name="email" id="email" value="{{ isset($student)? old('email', $student->email) : '' }}" required>
+                                <input class="form-control" type="text" name="email" id="email" required>
                                 @if($errors->has('email'))
                                     <span class="help-block" role="alert">{{ $errors->first('email') }}</span>
                                 @endif
@@ -35,7 +31,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
                                 <label class="required" for="phone">{{ trans('cruds.student.fields.phone') }}</label>
-                                <input class="form-control" type="number" name="phone" id="phone" value="{{ isset($student)? old('phone', $student->phone) : '' }}" step="1" required>
+                                <input class="form-control" type="number" name="phone" id="phone" step="1" required>
                                 @if($errors->has('phone'))
                                     <span class="help-block" role="alert">{{ $errors->first('phone') }}</span>
                                 @endif
@@ -43,7 +39,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
                                 <label class="required" for="address">{{ trans('cruds.student.fields.address') }}</label>
-                                <input class="form-control" type="text" name="address" id="address" value="{{ isset($student)? old('address', $student->address) : '' }}" required>
+                                <input class="form-control" type="text" name="address" id="address" required>
                                 @if($errors->has('address'))
                                     <span class="help-block" role="alert">{{ $errors->first('address') }}</span>
                                 @endif
@@ -51,7 +47,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('dob') ? 'has-error' : '' }}">
                                 <label class="required" for="dob">{{ trans('cruds.student.fields.dob') }}</label>
-                                <input class="form-control date" type="text" name="dob" id="dob" value="{{ isset($student)? old('dob', $student->dob) : '' }}" required>
+                                <input class="form-control date" type="text" name="dob" id="dob" required>
                                 @if($errors->has('dob'))
                                     <span class="help-block" role="alert">{{ $errors->first('dob') }}</span>
                                 @endif
@@ -59,7 +55,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('passport_number') ? 'has-error' : '' }}">
                                 <label class="required" for="passport_number">{{ trans('cruds.student.fields.passport_number') }}</label>
-                                <input class="form-control" type="number" name="passport_number" id="passport_number" value="{{ isset($student)? old('passport_number', $student->passport_number) : '' }}" step="1" required>
+                                <input class="form-control" type="number" name="passport_number" id="passport_number" step="1" required>
                                 @if($errors->has('passport_number'))
                                     <span class="help-block" role="alert">{{ $errors->first('passport_number') }}</span>
                                 @endif
@@ -78,7 +74,7 @@
                                 <label class="required" for="conductor_id">{{ trans('cruds.student.fields.conductor') }}</label>
                                 <select class="form-control select2" name="conductor_id" id="conductor_id" required>
                                     @foreach($conductors as $conductor_id => $conductor)
-                                        <option value="{{ $conductor_id }}" {{ ($student->conductor ? $student->conductor->conductor_id : old('conductor_id')) == $conductor_id ? 'selected' : '' }}>{{ $conductor }}</option>
+                                        <option value="{{ $conductor_id }}">{{ $conductor }}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('conductor_id'))
@@ -91,7 +87,7 @@
                                 <label class="required" for="module_id">{{ trans('cruds.student.fields.module') }}</label>
                                 <select class="form-control select2" name="module_id" id="module_id" required>
                                     @foreach($modules as $module_id => $module)
-                                        <option value="{{ $module_id }}" {{ ($student->module ? $student->module->module_id : old('module_id')) == $module_id ? 'selected' : '' }}>{{ $module }}</option>
+                                        <option value="{{ $module_id }}">{{ $module }}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('module_id'))
@@ -104,7 +100,7 @@
                                 <label class="required" for="location_id">{{ trans('cruds.student.fields.location') }}</label>
                                 <select class="form-control select2" name="location_id" id="location_id" required>
                                     @foreach($locations as $location_id => $location)
-                                        <option value="{{ $location_id }}" {{ ($student->location ? $student->location->location_id : old('location_id')) == $location_id ? 'selected' : '' }}>{{ $location }}</option>
+                                        <option value="{{ $location_id }}">{{ $location }}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('location_id'))

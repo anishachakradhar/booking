@@ -6,6 +6,7 @@ use Gate;
 use App\Module;
 use App\Payment;
 use App\Student;
+use App\BookDate;
 use App\Location;
 use App\Conductor;
 use Illuminate\Support\Str;
@@ -26,26 +27,31 @@ class StudentController extends Controller
     {
         abort_if(Gate::denies('student_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $bookDates = BookDate::all();
         $students = Student::all();
         // dd($students->toArray());
 
-        return view('admin.students.index', compact('students'));
+        return view('admin.students.index', compact('students','bookDates'));
     }
 
-    public function create()
+    public function create($id)
     {
         abort_if(Gate::denies('student_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $book_date_id = $id;
         $locations = Location::all()->pluck('location', 'location_id')->prepend(trans('global.pleaseSelect'), '');
         $modules = Module::all()->pluck('module', 'module_id')->prepend(trans('global.pleaseSelect'), '');
         $conductors = Conductor::all()->pluck('conductor', 'conductor_id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.students.create', compact('locations','modules','conductors'));
+        return view('admin.students.create', compact('locations','modules','conductors','book_date_id'));
     }
 
-    public function store(StoreStudentRequest $request)
+    public function store(StoreStudentRequest $request, $id)
     {
+        $bookDate = BookDate::where('book_date_id',$id)->first();
         $request['student_id'] = Str::random(5);
+        $request['book_date_id'] = $id;
+        $request['book_date_status'] = $bookDate->book_date_status;
         $student = Student::create($request->all());
 
         if ($request->input('passport_photo', false)) {
@@ -56,10 +62,10 @@ class StudentController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $student->id]);
         }
 
-        return redirect()->route('admin.students.index');
+        return redirect()->route('admin.bookDates.index');
     }
 
-    public function edit(Student $student)
+    public function edit(Student $student, $id)
     {
         abort_if(Gate::denies('student_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -67,14 +73,14 @@ class StudentController extends Controller
         $modules = Module::all()->pluck('module', 'module_id')->prepend(trans('global.pleaseSelect'), '');
         $conductors = Conductor::all()->pluck('conductor', 'conductor_id')->prepend(trans('global.pleaseSelect'), '');
 
-
-        $student->load('location');
+        $student = Student::where('book_date_id',$id)->first();
 
         return view('admin.students.edit', compact('locations', 'modules', 'conductors', 'student'));
     }
 
-    public function update(UpdateStudentRequest $request, Student $student)
+    public function update(UpdateStudentRequest $request, Student $student ,$id)
     {
+        $student = Student::where('book_date_id', $id)->first();
         $student->update($request->all());
 
         if ($request->input('passport_photo', false)) {
@@ -85,25 +91,26 @@ class StudentController extends Controller
             $student->passport_photo->delete();
         }
 
-        $payment = Payment::where('book_date_id',$student->studentBookDate->book_date_id);
-        $payment->update([
-            'status' => $student->status,
-        ]);
+        // $payment = Payment::where('book_date_id',$student->studentBookDate->book_date_id);
+        // $payment->update([
+        //     'status' => $student->status,
+        // ]);
 
         return redirect()->route('admin.students.index');
     }
 
-    public function show(Student $student)
+    public function show(Student $student, $id)
     {
         abort_if(Gate::denies('student_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $student->load('location', 'module', 'conductor');
+        
+        $student  = Student::where('book_date_id', $id)->first();
 
         return view('admin.students.show', compact('student'));
     }
 
-    public function destroy(Student $student)
+    public function destroy(Student $student, $id)
     {
+        $student = Student::where('book_date_id', $id)->first();
         abort_if(Gate::denies('student_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $student->delete();

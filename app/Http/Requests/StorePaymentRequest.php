@@ -24,7 +24,7 @@ class StorePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'required'
+            'book_date_status' => 'required'
         ];
     }
 }

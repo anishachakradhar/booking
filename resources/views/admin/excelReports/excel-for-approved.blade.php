@@ -5,7 +5,7 @@
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route("admin.excel-reports.create") }}">
-                    {{ trans('global.add') }} {{ trans('cruds.excelReport.title_singular') }}
+                    {{ trans('global.add') }} {{ trans('cruds.excelReportForApproved.title_singular') }}
                 </a>
                 <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
                     {{ trans('global.app_csvImport') }}
@@ -18,7 +18,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ trans('cruds.excelReport.title_singular') }} {{ trans('global.list') }}
+                    {{ trans('cruds.excelReportForApproved.title_singular') }} {{ trans('global.list') }}
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -26,31 +26,31 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.id') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.id') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.name') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.name') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.email') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.email') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.phone') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.phone') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.dob') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.dob') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.address') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.address') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.location') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.location') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.conductor') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.conductor') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.excelReport.fields.module') }}
+                                        {{ trans('cruds.excelReportForApproved.fields.module') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.bookDate.fields.date') }}

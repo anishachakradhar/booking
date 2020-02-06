@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Gate;
-use App\Payment;
 use App\Student;
 use App\BookDate;
 use Illuminate\Support\Str;
@@ -12,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class PaymentController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,9 +31,12 @@ class PaymentController extends Controller
     public function create($id)
     {
         abort_if(Gate::denies('payment_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $bookDateStatus = BookDate::STATUS_SELECT;
         $book_date = BookDate::where('book_date_id',$id)->first();
+        // dd($book_date->toArray());
+        // $book_date = BookDate::where('book_date_id',$id)->pluck( 'book','available_date_id')->prepend(trans('global.pleaseSelect'), '');
         
-        return view('admin.payments.create',compact('book_date'));
+        return view('admin.status.create',compact('book_date','bookDateStatus'));
     }
 
     /**
@@ -45,20 +47,18 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request, $id)
     {
-        
-        $payment = Payment::where('book_date_id',$id)->first();
-        $payment->update([
-            'status' => $request->status,
-            'payment_id' => Str::random(5),
-            'book_date_id' => $id,
-        ]);
-
-        $student = Student::where('student_id',$payment->bookDatePayment->student_id)->first();
+        $student = Student::where('book_date_id',$id)->first();
         $student->update([
-            'status' => $payment->status,
+            'book_date_status' => $request->book_date_status,
         ]);
 
-        return redirect()->route('admin.book-dates.index');
+        $bookDate = BookDate::where('book_date_id',$student->book_date_id)->first();
+
+        $bookDate->update([
+            'book_date_status' => $student->book_date_status,
+        ]);
+
+        return redirect()->route('admin.students.index');
     }
 
     /**

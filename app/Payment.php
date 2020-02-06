@@ -5,12 +5,18 @@ namespace App;
 use App\BookDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Payment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Notifiable;
 
     public $table = 'payments';
+
+    public function routeNotificationForMail($notification)
+    {
+        return $this->payment->email;
+    }
 
     protected $dates = [
         'created_at',

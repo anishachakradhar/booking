@@ -16,12 +16,7 @@ class ExcelReportController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('excel_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $students = Student::all();
-        $index = 1;
-
-        return view('admin.excelReports.index', compact('students', 'index'));
+        //
     }
 
     public function create()
@@ -57,5 +52,25 @@ class ExcelReportController extends Controller
     public function massDestroy()
     {
         //
+    }
+
+    public function excelForApproved()
+    {
+        abort_if(Gate::denies('excel_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $students = Student::all();
+        $index = 1;
+
+        return view('admin.excelReports.excel-for-approved', compact('students', 'index'));
+    }
+    
+    public function excelForPending()
+    {
+        abort_if(Gate::denies('excel_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $students = Student::all();
+        $index = 1;
+
+        return view('admin.excelReports.excel-for-pending', compact('students', 'index'));
     }
 }

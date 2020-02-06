@@ -26,25 +26,25 @@ class Student extends Model implements HasMedia
         'deleted_at',
     ];
 
-    const STATUS_SELECT = [
-        'pending'      => 'Pending Approval',
-        'date_booked'     => 'Date Booked',
-        'changed_date' => 'Changed Date',
-        'awaiting_consultancy_confirmation' => 'Awaiting Consultancy Confirmation',
-        'awaiting_date_booking' =>  'Awaiting Date Booking',
-        'booking_held'  =>  'Booking Held',
-        'awaiting_refund'   =>  'Awaiting Refund',
-        'refunded'  =>  'Refunded',
-        'processing_refund' =>  'Processing Refund',
-        'cancelled'    => 'Cancelled',
-    ];
+    // const STATUS_SELECT = [
+    //     'pending'      => 'Pending',
+    //     'date_booked'     => 'Date Booked',
+    //     'changed_date' => 'Changed Date',
+    //     'awaiting_consultancy_confirmation' => 'Awaiting Consultancy Confirmation',
+    //     'awaiting_date_booking' =>  'Awaiting Date Booking',
+    //     'booking_held'  =>  'Booking Held',
+    //     'awaiting_refund'   =>  'Awaiting Refund',
+    //     'refunded'  =>  'Refunded',
+    //     'processing_refund' =>  'Processing Refund',
+    //     'cancelled'    => 'Cancelled',
+    // ];
 
     protected $fillable = [
         'dob',
         'name',
         'email',
         'phone',
-        'status',
+        'book_date_status',
         'address',
         'created_at',
         'updated_at',
@@ -54,6 +54,7 @@ class Student extends Model implements HasMedia
         'module_id',
         'conductor_id',
         'student_id',
+        'book_date_id'
     ];
 
     public function registerMediaConversions(Media $media = null)
@@ -98,12 +99,12 @@ class Student extends Model implements HasMedia
     }
     public function studentBookDate()
     {
-        return $this->hasOne(BookDate::class, 'student_id', 'student_id');
+        return $this->belongsTo(BookDate::class, 'book_date_id', 'book_date_id');
     }
-    public function getStatusNameAttribute()
-    { 
-        return self::STATUS_SELECT[$this->status];
-    }
+    // public function getStatusNameAttribute()
+    // { 
+    //     return self::STATUS_SELECT[$this->status];
+    // }
     public function payment()
     {
         return $this->hasOne(Payment::class,'student_id','student_id');

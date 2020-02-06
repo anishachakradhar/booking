@@ -84,11 +84,21 @@
                         @endcan
                         @can('excel_report_access')
                             <li class="{{ request()->is('admin/excel-reports') || request()->is('admin/excel-reports/*') ? 'active' : '' }}">
-                                <a href="{{ route("admin.excel-reports.index") }}">
+                                <a href="{{ route("admin.excel-reports.pending") }}">
                                     <i class="fa-fw far fa-file-alt">
 
                                     </i>
-                                    <span>{{ trans('cruds.excelReport.title') }}</span>
+                                    <span>{{ trans('cruds.excelReportForPending.title') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('excel_report_access')
+                            <li class="{{ request()->is('admin/excel-reports') || request()->is('admin/excel-reports/*') ? 'active' : '' }}">
+                                <a href="{{ route("admin.excel-reports.approved") }}">
+                                    <i class="fa-fw far fa-file-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.excelReportForApproved.title') }}</span>
                                 </a>
                             </li>
                         @endcan

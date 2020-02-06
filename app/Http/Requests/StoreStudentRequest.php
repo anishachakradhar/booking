@@ -37,7 +37,9 @@ class StoreStudentRequest extends FormRequest
             ],
             'dob'             => [
                 'required',
+                'date',
                 'date_format:' . config('panel.date_format'),
+                'before:today',
             ],
             'passport_number' => [
                 'required',

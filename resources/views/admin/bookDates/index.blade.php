@@ -1,6 +1,18 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
+    @can('book_date_create')
+        <div style="margin-bottom: 10px;" class="row">
+            <div class="col-lg-12">
+                <form action="{{ route('admin.book-dates.create') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success">
+                        {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
+                    </button> 
+                </form>
+            </div>
+        </div>
+    @endcan
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -16,31 +28,28 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.id') }}
+                                        ID
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.name') }}
+                                        Date Booked
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.email') }}
+                                        Payment Status
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.date') }}
+                                        Date Booked Status
                                     </th>
                                     <th>
                                         &nbsp;
                                     </th>
                                     <th>
-                                        Book Date
-                                    </th>
-                                    <th>
-                                        Status
+                                        &nbsp;
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    @foreach($students as $key => $student)
-                                        <tr data-entry-id="{{ $student->id }}">
+                                    @foreach($bookDates as $key => $bookDate)
+                                        <tr data-entry-id="{{ $bookDate->id }}">
                                             <td>
 
                                             </td>
@@ -48,30 +57,33 @@
                                                 {{ $loop->iteration }}
                                             </td>
                                             <td>
-                                                {{ $student->name ?? '' }}
+                                                {{ $bookDate->date->available_date ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $student->email ?? '' }}
+                                                @if($bookDate->payment_status == 'unpaid')
+                                                    <span>Unpaid</span>
+                                                @elseif($bookDate->payment_status == 'paid')
+                                                    <span>Paid</span>
+                                                @endif
                                             </td>
                                             <td>
-                                                {{ $student->studentBookDate->date->available_date ?? '' }}
+                                                {{ $bookDate->status_name }}
                                             </td>
-                                            @if(!empty($student->studentBookDate->book_date_id))
                                             <td>
                                                 @can('book_date_show')
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $student->student_id) }}">
+                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.book-dates.show', $bookDate->book_date_id) }}">
                                                         {{ trans('global.view') }}
                                                     </a>
                                                 @endcan
 
                                                 @can('book_date_edit')
-                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $student->student_id) }}">
+                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.book-dates.edit', $bookDate->book_date_id) }}">
                                                         {{ trans('global.edit') }}
                                                     </a>
                                                 @endcan
 
                                                 @can('book_date_delete')
-                                                    <form action="{{ route('admin.book-dates.destroy', $student->student_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                    <form action="{{ route('admin.book-dates.destroy', $bookDate->book_date_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -79,35 +91,23 @@
                                                 @endcan
 
                                             </td>
-                                            @else
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                            @endif
-                                            @if(empty($student->studentBookDate->book_date_id))
                                             <td>
-                                                @can('book_date_create')
-                                                    <div style="margin-bottom: 10px;" class="row">
-                                                        <div class="col-lg-12">
-                                                            <form action="{{ route('admin.book-dates.create',$student->student_id) }}">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-success">
-                                                                    {{ trans('global.add') }} {{ trans('cruds.bookDate.title_singular') }}
-                                                                </button> 
-                                                            </form>
+                                                @if(empty($bookDate->student))
+                                                    @can('student_create')
+                                                        <div style="margin-bottom: 10px;" class="row">
+                                                            <div class="col-lg-12">
+                                                                <a class="btn btn-success" href="{{ route('admin.students.create', $bookDate->book_date_id) }}">
+                                                                    Add Student Details
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endcan
+                                                    @endcan
+                                                @endif
                                             </td>
-                                            @else
-                                            <td>
-                                                &nbsp;
-                                            </td>
-                                            @endif
-                                            @if(!empty($student->studentBookDate->book_date_id))
+                                            {{-- @if(!empty($bookDate->book_date_id))
                                             <td>
                                                 @can('book_date_status')
-                                                    @if(!empty($student->studentBookDate->payment->status))
+                                                    @if(!empty($bookDate->studentBookDate->payment->status))
                                                         {{ $student->status_name }}
                                                     @endif
                                                     <a class="btn btn-xs btn-info" href="{{ route('admin.payments.create', $student->studentBookDate->book_date_id) }}">
@@ -119,7 +119,7 @@
                                             <td>
                                                 &nbsp;
                                             </td>
-                                            @endif
+                                            @endif --}}
                                         </tr>
                                 @endforeach
                             </tbody>

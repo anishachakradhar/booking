@@ -26,25 +26,35 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Students
-    Route::delete('students/destroy', 'StudentController@massDestroy')->name('students.massDestroy');
-    Route::post('students/media', 'StudentController@storeMedia')->name('students.storeMedia');
-    Route::post('students/ckmedia', 'StudentController@storeCKEditorImages')->name('students.storeCKEditorImages');
-    Route::resource('students', 'StudentController');
-
     // Book Dates
     Route::delete('book-dates/destroy', 'BookDateController@massDestroy')->name('book-dates.massDestroy');
     Route::get('book-dates/edit/{id}','BookDateController@edit')->name('book-dates.edit');
     Route::patch('book-dates/update/{id}','BookDateController@update')->name('book-dates.update');
     Route::get('book-dates/show/{id}','BookDateController@show')->name('book-dates.show');
     Route::delete('book-dates/{id}','BookDateController@destroy')->name('book-dates.destroy');
-    Route::get('book-dates/create/{id}', 'BookDateController@create')->name('book-dates.create');
-    Route::post('book-dates/store/{id}', 'BookDateController@store')->name('book-dates.store');
+    Route::get('book-dates/create', 'BookDateController@create')->name('book-dates.create');
+    Route::post('book-dates/store', 'BookDateController@store')->name('book-dates.store');
     Route::get('book-dates','BookDateController@index')->name('book-dates.index');
+
+    // Students
+    Route::delete('students/destroy', 'StudentController@massDestroy')->name('students.massDestroy');
+    Route::post('students/media', 'StudentController@storeMedia')->name('students.storeMedia');
+    Route::post('students/ckmedia', 'StudentController@storeCKEditorImages')->name('students.storeCKEditorImages');
+    Route::get('students/create/{id}', 'StudentController@create')->name('students.create');
+    Route::post('students/store/{id}', 'StudentController@store')->name('students.store');
+    Route::get('students', 'StudentController@index')->name('students.index');
+    Route::get('students/edit/{id}','StudentController@edit')->name('students.edit');
+    Route::patch('students/update/{id}','StudentController@update')->name('students.update');
+    Route::get('students/show/{id}','StudentController@show')->name('students.show');
+    Route::delete('students/{id}','StudentController@destroy')->name('students.destroy');
 
     // Excel Reports
     Route::delete('excel-reports/destroy', 'ExcelReportController@massDestroy')->name('excel-reports.massDestroy');
     Route::resource('excel-reports', 'ExcelReportController');
+
+    Route::get('excel-report/pending','ExcelReportController@excelForPending')->name('excel-reports.pending');
+    Route::get('excel-report/approved','ExcelReportController@excelForApproved')->name('excel-reports.approved');
+
     Route::post('excel-reports/parse-csv-import', 'ExcelReportController@parseCsvImport')->name('excel-reports.parseCsvImport');
     Route::post('excel-reports/process-csv-import', 'ExcelReportController@processCsvImport')->name('excel-reports.processCsvImport');
 
@@ -65,37 +75,38 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('available-dates', 'AvailableDateController');
     Route::get('available-dates/status/{id}', 'AvailableDateController@status')->name('available-dates.status');
 
-    //Payments
-    Route::get('payments/create/{id}', 'PaymentController@create')->name('payments.create');
-    Route::post('payment/store/{id}','PaymentController@store')->name('payments.store');
+    //Date-Booking Status Change
+    Route::get('status/create/{id}', 'StatusController@create')->name('status.create');
+    Route::post('status/store/{id}','StatusController@store')->name('status.store');
 
 });
 
 Route::group(['prefix' => 'student', 'as' => 'student.', 'namespace' => 'Frontend'], function () {
 
     //Student
-    //Entry-form
-    Route::get('entry-form','EntryFormController@create')->name('entry-form');
-    Route::post('entry-form/store','EntryFormController@store')->name('entry-form.store');
-    Route::get('entry-form/edit/{id}','EntryFormController@edit')->name('entry-form.edit');
-    Route::put('entry-form/update/{id}','EntryFormController@update')->name('entry-form.update');
 
     //Book-date
-    Route::get('date-booking/{id}','DateBookingController@create')->name('date-booking');
-    Route::post('date-booking/store/{id}','DateBookingController@store')->name('date-booking.store');
+    Route::get('date-booking','DateBookingController@create')->name('date-booking');
+    Route::post('date-booking/store','DateBookingController@store')->name('date-booking.store');
 
+    //Entry-form
+    Route::get('entry-form/{id}','EntryFormController@create')->name('entry-form');
+    Route::post('entry-form/store/{id}','EntryFormController@store')->name('entry-form.store');
+
+    Route::get('details','EntryFormController@details')->name('details');
+    Route::get('student-detail','EntryFormController@studentDetail')->name('student-detail');
 
     //Payment
+    Route::post('date-payment/direct','DatePaymentController@directPayment')->name('date-payment.direct');
     Route::get('date-payment/{id}','DatePaymentController@create')->name('date-payment');
-    Route::post('date-payment/{id}','DatePaymentController@store')->name('date-payment.store');
-
-    Route::get('payment','DatePaymentController@index')->name('payment');
-
     Route::post('verification','DatePaymentController@verification')->name('date-payment.verification');
+    Route::get('payment-result/{id}', 'DatePaymentController@paymentResult')->name('date-payment.payment-result');
+    Route::get('make/payment', 'DatePaymentController@makePayment')->name('make-payment');
 
-    Route::get('test', 'DatePaymentController@test');
-
+    //home page
+    Route::get('landing/home','LandingController@home')->name('landing.home');
+    Route::get('ielts','LandingController@ielts')->name('ielts');
+    Route::get('pte','LandingController@pte')->name('pte');
 
 
 });
-

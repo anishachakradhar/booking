@@ -9,8 +9,8 @@
                     {{ trans('global.edit') }} {{ trans('cruds.student.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="{{ route("admin.students.update", [$student->id]) }}" enctype="multipart/form-data">
-                        @method('PUT')
+                    <form method="POST" action="{{ route('admin.students.update', $student->book_date_id) }}" enctype="multipart/form-data">
+                        @method('PATCH')
                         @csrf
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="required" for="name">{{ trans('cruds.student.fields.name') }}</label>

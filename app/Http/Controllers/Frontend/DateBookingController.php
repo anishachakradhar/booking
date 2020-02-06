@@ -28,11 +28,11 @@ class DateBookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request)
     {
-        $student_id = $id;
-        $dates = AvailableDate::all();
-        return view('frontend.student.date-booking', compact('student_id','dates'));
+        $dates = AvailableDate::where('available_date_status','active')->pluck( 'available_date','available_date_id')->prepend(trans('global.pleaseSelect'), '');
+        // dd($dates->toArray());
+        return view('frontend.student.date-booking', compact('dates'));
     }
 
     /**
@@ -41,40 +41,33 @@ class DateBookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(StoreBookDateRequest $request)
     {
         $bookDate = BookDate::create([
             'book_date_id' => Str::random(5),
             'available_date_id' => $request->available_date_id,
-            'student_id' => $id,
         ]);
 
-        $payment = Payment::create([
-            'status' => $bookDate->student->status,
-            'payment_id' => Str::random(5),
-            'book_date_id' => $bookDate->book_date_id,
-        ]);
+        // if(!empty($bookDate))
+        // {
+        //     $availableDate = AvailableDate::where('available_date_id',$bookDate->available_date_id)->first();
+        //     $count = $availableDate->available_seat;
+        //     if($count > 0)
+        //     {   
+        //         $count--;
+        //         $availableDate->update([
+        //             'available_seat' => $count,
+        //         ]);
+        //         if($count == 0)
+        //         {
+        //             $availableDate->update([
+        //                 'available_date_status' => 'not_available',
+        //             ]);
+        //         }
+        //     }
+        // }
 
-        if(!empty($bookDate))
-        {
-            $availableDate = AvailableDate::where('available_date_id',$bookDate->available_date_id)->first();
-            $count = $availableDate->available_seat;
-            if($count > 0)
-            {   
-                $count--;
-                $availableDate->update([
-                    'available_seat' => $count,
-                ]);
-                if($count == 0)
-                {
-                    $availableDate->update([
-                        'available_date_status' => 'not_available',
-                    ]);
-                }
-            }
-        }
-
-        return redirect()->route('student.date-payment', $bookDate->student_id);
+        return redirect()->route('student.entry-form', $bookDate->book_date_id);
     }
 
     /**

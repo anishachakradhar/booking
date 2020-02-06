@@ -23,9 +23,6 @@ class StoreBookDateRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'student_id' => 
-                'required|exists:students,student_id',
-            
         ];
     }
 }

@@ -95,3 +95,12 @@ table.dataTable thead .sorting_desc {
     background-color: #2870e4;
     color: white !important;
 }
+.btn-lightgrey{
+    background-color: #8f8f8f;
+    color: white;
+}
+
+.btn-lightgrey:hover{
+    background-color: #747474;
+    color: white;
+}

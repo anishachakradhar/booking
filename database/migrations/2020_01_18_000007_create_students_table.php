@@ -21,7 +21,7 @@ class CreateStudentsTable extends Migration
 
             $table->string('address');
 
-            $table->string('status')->default('pending');
+            $table->string('book_date_status');
 
             $table->integer('passport_number');
 
@@ -38,6 +38,10 @@ class CreateStudentsTable extends Migration
             $table->foreign('location_id')->references('location_id')->on('locations');
 
             $table->string('student_id')->unique();
+
+            $table->string('book_date_id');
+
+            $table->foreign('book_date_id')->references('book_date_id')->on('book_dates');
 
             $table->timestamps();
 

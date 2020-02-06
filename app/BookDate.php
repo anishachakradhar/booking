@@ -11,6 +11,19 @@ class BookDate extends Model
 
     public $table = 'book_dates';
 
+    const STATUS_SELECT = [
+        'pending'      => 'Pending',
+        'date_booked'     => 'Date Booked',
+        'changed_date' => 'Changed Date',
+        'awaiting_consultancy_confirmation' => 'Awaiting Consultancy Confirmation',
+        'awaiting_date_booking' =>  'Awaiting Date Booking',
+        'booking_held'  =>  'Booking Held',
+        'awaiting_refund'   =>  'Awaiting Refund',
+        'refunded'  =>  'Refunded',
+        'processing_refund' =>  'Processing Refund',
+        'cancelled'    => 'Cancelled',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -20,7 +33,8 @@ class BookDate extends Model
     protected $fillable = [
         'book_date_id',
         'available_date_id',
-        'student_id',
+        'payment_status',
+        'book_date_status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -28,7 +42,7 @@ class BookDate extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class, 'student_id','student_id');
+        return $this->hasOne(Student::class, 'book_date_id','book_date_id');
     }
 
     public function date()
@@ -39,5 +53,10 @@ class BookDate extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class, 'book_date_id','book_date_id');
+    }
+
+    public function getStatusNameAttribute()
+    { 
+        return self::STATUS_SELECT[$this->book_date_status];
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.frontend')
 @section('content')
 <div class="content">
 
@@ -6,23 +6,42 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ trans('global.show') }} {{ trans('cruds.bookDate.title') }}
+                    Student's Detail
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('admin.book-dates.index') }}">
-                                {{ trans('global.back_to_list') }}
-                            </a>
-                        </div>
                         <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.bookDate.fields.id') }}
+                                        Name
                                     </th>
                                     <td>
-                                        {{ $bookDate->id }}
+                                        {{ $studentDetail->name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <td>
+                                        {{ $studentDetail->email }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Phone number
+                                    </th>
+                                    <td>
+                                        {{ $studentDetail->phone }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Location
+                                    </th>
+                                    <td>
+                                        {{ $studentDetail->location->location }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -30,19 +49,7 @@
                                         Date Booked
                                     </th>
                                     <td>
-                                        {{ $bookDate->date->available_date ?? '' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Payment Status
-                                    </th>
-                                    <td>
-                                        @if($bookDate->payment_status == 'unpaid')
-                                            <span>Unpaid</span>
-                                        @elseif($bookDate->payment_status == 'paid')
-                                            <span>Paid</span>
-                                        @endif
+                                        {{ $studentDetail->studentBookDate->date->available_date }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -50,22 +57,19 @@
                                         Date Booked Status
                                     </th>
                                     <td>
-                                        {{ $bookDate->status_name }}
+                                        {{ $studentDetail->studentBookDate->status_name }}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('admin.book-dates.index') }}">
-                                {{ trans('global.back_to_list') }}
+                            <a class="btn btn-default" href="{{ route('student.ielts') }}">
+                                Okay
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </div>

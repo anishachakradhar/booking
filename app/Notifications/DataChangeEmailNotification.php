@@ -29,13 +29,13 @@ class DataChangeEmailNotification extends Notification
     public function getMessage()
     {
         return (new MailMessage)
-            ->subject(config('app.name') . ': entry ' . $this->data['action'] . ' in ' . $this->data['model_name'])
+            ->subject('IELTS Booking : entry ' . $this->data['action'] . ' in ' . $this->data['model_name'])
             ->greeting('Hi,')
             ->line('We would like to inform you that entry has been ' . $this->data['action'] . ' in ' . $this->data['model_name'])
             ->line('Please log in to see more information.')
-            ->action(config('app.name'), config('app.url'))
-            ->line('Thank you')
-            ->line(config('app.name') . ' Team')
+            ->action('See Details', route('admin.students.index'))
+            ->line('Thank you,')
+            ->line('Technorio Team')
             ->salutation(' ');
     }
 }

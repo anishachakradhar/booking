@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Payment;
+use App\Student;
 use App\BookDate;
+use App\AvailableDate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,10 +28,7 @@ class DatePaymentController extends Controller
      */
     public function create($id)
     {
-        $book_date = BookDate::where('student_id',$id)->first();
-
-        // dd($book_date->toArray());
-        
+        $book_date = BookDate::where('book_date_id',$id)->first();    
         return view('frontend.datePayment.date-payment',compact('book_date'));
     }
 
@@ -91,9 +90,6 @@ class DatePaymentController extends Controller
 
     public function verification(Request $request)
     {
-        // dd($request->toArray());
-        //req amt == amt 
-        // dd($request->toArray());
         $args = http_build_query(array(
             'token' => $request->token, //token send from client integration; Client side payment initiation
             'amount'  => $request->amount //amount should be checked and keep real amount to be paid, 
@@ -118,8 +114,6 @@ class DatePaymentController extends Controller
 
         $res = json_decode($response, true);
 
-        // dd($res);
-
         $payment = Payment::create([
             'book_date_id'  =>  $request->product_name,
             'student_id'    =>  $request->product_identity,
@@ -141,16 +135,65 @@ class DatePaymentController extends Controller
 
         return response()->json([
             'success'=> true,
-            'message'=> 'paid'
+            'message'=> 'paid',
+            'book_date_id'=> $payment->book_date_id,
         ], 200);
-        return view('frontend.student.entry-form'); 
+
     }
 
-    public function test()
+    public function paymentResult($id)
     {
-        $response = '{"idx":"WMocJGqf6YY5YfD6urjTXj","type":{"idx":"2jwzDS9wkxbkDFquJqfAEC","name":"Wallet payment"},"state":{"idx":"DhvMj9hdRufLqkP8ZY4d8g","name":"Completed","template":"is complete"},"amount":1000,"fee_amount":30,"refunded":false,"created_on":"2020-02-03T15:38:54.318817+05:45","user":{"idx":"znRMopULPNP5vwmaMjkyng","name":"Anisha Chakradhar","mobile":"9843586044"},"merchant":{"idx":"tvtgvYAeynqCj8g475hXrY","name":"Demo","mobile":"sukhadshresthaX13@hotmail.com"}}';
+        $payment_success = Payment::where('book_date_id',$id)->first();
+        if(!empty($payment_success))
+        {
+            $availableDate = AvailableDate::where('available_date_id',$payment_success->bookDatePayment->date->available_date_id)->first();
+            $count = $availableDate->available_seat;
+            if($count > 0)
+            {   
+                $count--;
+                $availableDate->update([
+                    'available_seat' => $count,
+                ]);
+                if($count == 0)
+                {
+                    $availableDate->update([
+                        'available_date_status' => 'not_available',
+                    ]);
+                }
+            }
+        }
 
-        dd($response);
+        $bookDate = BookDate::where('book_date_id',$payment_success->book_date_id)->first();
+        $bookDate->update([
+            'payment_status' => 'paid',
+        ]);
+
+        return view('frontend.datePayment.payment-result')->with('payment_success',$payment_success);
+    }
+
+    public function makePayment()
+    {
+        return view('frontend.datePayment.make-payment');
+    }
+
+    public function directPayment(Request $request)
+    {
+        $studentPayment = Student::where('email',$request->email)->first();
+        if(!empty($studentPayment))
+        {
+            if($studentPayment->studentBookDate->payment_status == 'unpaid')
+            {
+                return redirect()->route('student.date-payment',$studentPayment->studentBookDate->book_date_id);
+            }
+            else
+            {
+                return redirect()->route('student.make-payment')->withError('Payment Already done.');
+            }
+        }
+        else
+        {
+            return redirect()->route('student.make-payment')->withError('No dates booked for this email address.');
+        }
     }
 
 }

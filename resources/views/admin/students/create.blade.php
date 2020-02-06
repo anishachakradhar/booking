@@ -9,8 +9,9 @@
                     {{ trans('global.create') }} {{ trans('cruds.student.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="{{ route("admin.students.store") }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.students.store', $book_date_id) }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="book_date_id" value="{{$book_date_id}}">
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="required" for="name">{{ trans('cruds.student.fields.name') }}</label>
                             <input class="form-control" type="text" name="name" id="name" value="{{ old('name', '') }}" required>

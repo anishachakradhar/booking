@@ -111,10 +111,30 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.student.fields.status') }}
+                                        Date Booked
                                     </th>
                                     <td>
-                                        {{ App\Student::STATUS_SELECT[$student->status] ?? '' }}
+                                        {{ $student->studentBookDate->date->available_date ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Payment Status
+                                    </th>
+                                    <td>
+                                        @if($student->studentBookDate->payment_status == 'unpaid')
+                                            <span>Unpaid</span>
+                                        @elseif($student->studentBookDate->payment_status == 'paid')
+                                            <span>Paid</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Date Booked Status
+                                    </th>
+                                    <td>
+                                        {{ $student->studentBookDate->status_name ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>

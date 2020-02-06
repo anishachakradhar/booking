@@ -9,16 +9,13 @@
                     {{ trans('global.create') }} {{ trans('cruds.bookDate.title_singular') }}
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="{{ route("admin.book-dates.store", $student_id)}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.book-dates.store')}}" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" value="{{$student_id}}" name="student_id">
                         <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
                             <label class="required" for="available_date_id">{{ trans('cruds.bookDate.fields.date') }}</label>
                             <select class="form-control select2" name="available_date_id" id="available_date_id" required>
-                                @foreach($dates as $date)
-                                    @if($date->available_date_status == 'active')
-                                        <option value="{{ $date->available_date_id }}" {{ old('available_date_id') == $date->available_date_id ? 'selected' : '' }}>{{ $date->available_date }}</option>
-                                    @endif
+                                @foreach($dates as $available_date_id => $available_date)
+                                    <option value="{{ $available_date_id }}" {{ old('available_date_id') == $available_date_id ? 'selected' : '' }}>{{  $available_date }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('available_date_id'))

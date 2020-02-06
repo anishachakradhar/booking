@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
@@ -23,3 +26,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Available Dates
     Route::apiResource('available-dates', 'AvailableDateApiController');
 });
+
+
+// Route::post('/book-date', function(Request $request){
+//     return response()->json([
+//         'req'=> $request->toArray()
+//     ]);
+// });
