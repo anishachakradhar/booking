@@ -8,6 +8,7 @@ use App\AvailableDate;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StudentExistRequest;
 use App\Http\Requests\StoreBookDateRequest;
 
@@ -43,10 +44,15 @@ class DateBookingController extends Controller
      */
     public function store(StoreBookDateRequest $request)
     {
-        $bookDate = BookDate::create([
-            'book_date_id' => Str::random(5),
-            'available_date_id' => $request->available_date_id,
-        ]);
+        Session::put('available_date_id', $request->available_date_id);
+        Session::put('book_date_id', Str::random(5));
+        Session::put('temp_booking_code', $this->generateTempBookingCode());
+        Session::put('permanent_booking_code', $this->generateBookingCode());
+
+        // $bookDate = BookDate::create([
+        //     'book_date_id' => Str::random(5),
+        //     'available_date_id' => $request->available_date_id,
+        // ]);
 
         // if(!empty($bookDate))
         // {
@@ -67,7 +73,7 @@ class DateBookingController extends Controller
         //     }
         // }
 
-        return redirect()->route('student.entry-form', $bookDate->book_date_id);
+        return redirect()->route('student.entry-form', Session::get('book_date_id'));
     }
 
     /**
@@ -113,5 +119,39 @@ class DateBookingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generateTempBookingCode() {
+        $number = mt_rand(100000, 999999); 
+    
+        // call the same function if the barcode exists already
+        if ($this->tempBookingCode($number)) {
+            return generateTempBookingCode();
+        }
+    
+        // otherwise, it's valid and can be used
+        return $number;
+    }
+
+    public function tempBookingCode($number)
+    {
+        return BookDate::whereTempBookingCode($number)->exists();
+    }
+
+    public function generateBookingCode() {
+        $num = mt_rand(100000, 999999); 
+    
+        // call the same function if the barcode exists already
+        if ($this->bookingCode($num)) {
+            return generateBookingCode();
+        }
+    
+        // otherwise, it's valid and can be used
+        return $num;
+    }
+
+    public function bookingCode($num)
+    {
+        return BookDate::wherePermanentBookingCode($num)->exists();
     }
 }

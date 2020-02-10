@@ -27,6 +27,17 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('available-dates', 'AvailableDateApiController');
 });
 
+Route::group([ 'middleware' => ['ieltsbooking']], function(){
+    Route::apiResources([
+        'date-booking' => 'Api\V1\Student\ApiDateBookingController',
+    ]);
+    Route::apiResources([
+        'student-form' => 'Api\V1\Student\ApiStudentFormController',
+    ]);
+    Route::apiResources([
+        'payment/verify'   =>  'Api\V1\Student\ApiDatePaymentController'
+    ]);
+});
 
 // Route::post('/book-date', function(Request $request){
 //     return response()->json([

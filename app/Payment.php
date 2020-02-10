@@ -41,6 +41,7 @@ class Payment extends Model
         'merchant_id',
         'merchant_name',
         'merchant_phone',
+        'token',
         'created_at',
         'updated_at',
         'deleted_at',

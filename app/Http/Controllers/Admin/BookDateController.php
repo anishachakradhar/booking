@@ -10,6 +10,7 @@ use App\AvailableDate;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StudentExistRequest;
 use App\Http\Requests\StoreBookDateRequest;
 use App\Http\Requests\UpdateBookDateRequest;
@@ -37,9 +38,11 @@ class BookDateController extends Controller
 
     public function store(StoreBookDateRequest $request)
     {
+        
         $bookDate = BookDate::create([
             'book_date_id' => Str::random(5),
             'available_date_id' => $request->available_date_id,
+            'temp_booking_code' => $this->generateTempBookingCode()
         ]);
 
         return redirect()->route('admin.book-dates.index');
@@ -107,5 +110,22 @@ class BookDateController extends Controller
         BookDate::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function generateTempBookingCode() {
+        $number = mt_rand(100000, 999999); 
+    
+        // call the same function if the barcode exists already
+        if ($this->tempBookingCode($number)) {
+            return generateTempBookingCode();
+        }
+    
+        // otherwise, it's valid and can be used
+        return $number;
+    }
+
+    public function tempBookingCode($number)
+    {
+        return BookDate::whereTempBookingCode($number)->exists();
     }
 }

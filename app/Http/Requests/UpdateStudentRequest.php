@@ -25,13 +25,11 @@ class UpdateStudentRequest extends FormRequest
             ],
             'email'           => [
                 'required',
-                Rule::unique('students', 'email')->ignore($this->id, 'book_date_id'),
             ],
             'phone'           => [
                 'required',
                 'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'digits:10'
             ],
             'address'         => [
                 'required',

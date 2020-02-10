@@ -40,6 +40,12 @@
                                         Date Booked Status
                                     </th>
                                     <th>
+                                        Temporary Booking Code
+                                    </th>
+                                    <th>
+                                        Permanent Booking Code
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
                                     <th>
@@ -68,6 +74,12 @@
                                             </td>
                                             <td>
                                                 {{ $bookDate->status_name }}
+                                            </td>
+                                            <td>
+                                                {{ $bookDate->temp_booking_code }}
+                                            </td>
+                                            <td>
+                                                {{ $bookDate->permanent_booking_code }}
                                             </td>
                                             <td>
                                                 @can('book_date_show')

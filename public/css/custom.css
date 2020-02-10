@@ -104,3 +104,30 @@ table.dataTable thead .sorting_desc {
     background-color: #747474;
     color: white;
 }
+
+.count{
+    width: 378px;
+    height: 200px;
+    margin: 20px 20px 20px 20px 20px;
+}
+
+.count-heading{
+    font-size: x-large;
+}
+
+.count-body{
+    font-size: xx-large;
+}
+
+.stretched-link::after{
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:1;
+    pointer-events:auto;
+    content:"";
+    background-color:rgba(0,0,0,0)
+}
+

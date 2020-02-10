@@ -21,6 +21,10 @@ class CreateBookDatesTable extends Migration
 
             $table->string('payment_status')->default('unpaid');
 
+            $table->string('temp_booking_code')->nullable();
+
+            $table->string('permanent_booking_code')->nullable();
+
             $table->timestamps();
 
             $table->softDeletes();

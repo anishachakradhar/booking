@@ -125,12 +125,14 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @can('book_date_status')
-                                                {{ $student->studentBookDate->status_name ?? '' }}
-                                                <a class="btn btn-xs btn-info" href="{{ route('admin.status.create', $student->studentBookDate->book_date_id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
+                                            @if($student->studentBookDate->payment_status == 'paid')
+                                                @can('book_date_status')
+                                                    {{ $student->studentBookDate->status_name ?? '' }}
+                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.status.create', $student->studentBookDate->book_date_id) }}">
+                                                        {{ trans('global.edit') }}
+                                                    </a>
+                                                @endcan
+                                            @endif
                                         </td>
                                         <td>
                                             @can('student_show')

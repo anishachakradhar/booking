@@ -35,6 +35,8 @@ class BookDate extends Model
         'available_date_id',
         'payment_status',
         'book_date_status',
+        'temp_booking_code',
+        'permanent_booking_code',
         'created_at',
         'updated_at',
         'deleted_at',

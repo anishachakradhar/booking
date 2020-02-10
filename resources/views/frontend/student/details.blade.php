@@ -12,8 +12,8 @@
                     <form action="{{ route('student.student-detail')}}" method="GET">
                         @csrf
                         <div class="form-group">
-                            <label for="booking_code">Booking Code</label>
-                            <input class="form-control" type="text" name="booking_code" required>
+                            <label for="permanent_booking_code">Booking Code</label>
+                            <input class="form-control" type="number" name="permanent_booking_code" required>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">Submit</button>

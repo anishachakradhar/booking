@@ -108,5 +108,7 @@ Route::group(['prefix' => 'student', 'as' => 'student.', 'namespace' => 'Fronten
     Route::get('ielts','LandingController@ielts')->name('ielts');
     Route::get('pte','LandingController@pte')->name('pte');
 
+    Route::get('temp','DatePaymentController@generateBarcodeNumber')->name('generateBarcodeNumber');
+
 
 });

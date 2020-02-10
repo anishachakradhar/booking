@@ -59,7 +59,7 @@
                             </thead>
                             <tbody>
                                 @foreach($students as $key => $student)
-                                @if($student->status == 'date_booked' || $student->status == 'changed_date'  )
+                                @if($student->book_date_status == 'date_booked')
                                     <tr data-entry-id="{{ $student->id }}">
                                         <td>
                                             {{ $index++ }}

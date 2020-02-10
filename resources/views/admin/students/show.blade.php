@@ -137,6 +137,22 @@
                                         {{ $student->studentBookDate->status_name ?? '' }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>
+                                        Temporary Booking Code
+                                    </th>
+                                    <td>
+                                        {{ $student->studentBookDate->temp_booking_code }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Permanent Booking Code
+                                    </th>
+                                    <td>
+                                        {{ $student->studentBookDate->permanent_booking_code }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="form-group">

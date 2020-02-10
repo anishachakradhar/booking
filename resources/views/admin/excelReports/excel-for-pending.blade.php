@@ -59,7 +59,7 @@
                             </thead>
                             <tbody>
                                 @foreach($students as $key => $student)
-                                @if($student->status == 'pending')
+                                @if($student->book_date_status == 'pending')
                                     <tr data-entry-id="{{ $student->id }}">
                                         <td>
                                             {{ $index++ }}

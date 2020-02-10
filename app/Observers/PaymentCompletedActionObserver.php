@@ -18,6 +18,7 @@ class PaymentCompletedActionObserver
     {
         $data  = ['action' => 'created', 'model_name' => 'Payment'];
         $paid_user = Payment::where('book_date_id',$payment->book_date_id)->with('bookDatePayment.date')->first();
+        dump($paid_user->toArray());
         $payment->notify(new PaymentCompletedEmailNotification($data, $paid_user));
     }
 

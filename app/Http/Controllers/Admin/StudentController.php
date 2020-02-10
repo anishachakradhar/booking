@@ -62,7 +62,7 @@ class StudentController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $student->id]);
         }
 
-        return redirect()->route('admin.bookDates.index');
+        return redirect()->route('admin.students.index');
     }
 
     public function edit(Student $student, $id)

@@ -8,6 +8,7 @@ use App\BookDate;
 use App\AvailableDate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class DatePaymentController extends Controller
 {
@@ -28,7 +29,8 @@ class DatePaymentController extends Controller
      */
     public function create($id)
     {
-        $book_date = BookDate::where('book_date_id',$id)->first();    
+        $book_date = BookDate::where('book_date_id',$id)->first();   
+
         return view('frontend.datePayment.date-payment',compact('book_date'));
     }
 
@@ -89,55 +91,74 @@ class DatePaymentController extends Controller
     }
 
     public function verification(Request $request)
-    {
+    { 
         $args = http_build_query(array(
-            'token' => $request->token, //token send from client integration; Client side payment initiation
-            'amount'  => $request->amount //amount should be checked and keep real amount to be paid, 
+            'token' => $request->token, 
+            'amount'  => $request->amount 
         ));
+        // dump($request->toArray());
 
         $url = "https://khalti.com/api/v2/payment/verify/";
 
         # Make the call using API.
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        $headers = ['Authorization: Key '.env('KHALTI_SECRET_KEY')];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $headers = ['Authorization: Key '.env('KHALTI_SECRET_KEY')];
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        // Response
-        $response = curl_exec($ch);
-        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+            // Response
+            $response = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            
+            $res = json_decode($response, true);
+            
+            if($status_code != 200)
+            {
+                return response()->json([
+                    'success'=> false,
+                    'message'=> $res,
+                ], 200);
+            }
 
-        $res = json_decode($response, true);
+            $payment = Payment::create([
+                'book_date_id'  =>  $request->product_name,
+                'student_id'    =>  $request->product_identity,
+                'payment_id'    =>  $res['idx'],
+                'type_id'       =>  $res['type']['idx'],
+                'type_name'     =>  $res['type']['name'],
+                'status_id'     =>  $res['state']['idx'],
+                'status_name'   =>  $res['state']['name'],
+                'amount'        =>  $res['amount'],
+                'fee_amount'    =>  $res['fee_amount'],
+                'refund_status' =>  $res['refunded'],
+                'user_id'       =>  $res['user']['idx'],
+                'user_name'     =>  $res['user']['name'],
+                'user_phone'    =>  $res['user']['mobile'],
+                'merchant_id'   =>  $res['merchant']['idx'],
+                'merchant_name' =>  $res['merchant']['name'],
+                'merchant_phone'=>  $res['merchant']['mobile'],
+                'token'         =>  $request->token,
+            ]);
 
-        $payment = Payment::create([
-            'book_date_id'  =>  $request->product_name,
-            'student_id'    =>  $request->product_identity,
-            'payment_id'    =>  $res['idx'],
-            'type_id'       =>  $res['type']['idx'],
-            'type_name'     =>  $res['type']['name'],
-            'status_id'     =>  $res['state']['idx'],
-            'status_name'   =>  $res['state']['name'],
-            'amount'        =>  $res['amount'],
-            'fee_amount'    =>  $res['fee_amount'],
-            'refund_status' =>  $res['refunded'],
-            'user_id'       =>  $res['user']['idx'],
-            'user_name'     =>  $res['user']['name'],
-            'user_phone'    =>  $res['user']['mobile'],
-            'merchant_id'   =>  $res['merchant']['idx'],
-            'merchant_name' =>  $res['merchant']['name'],
-            'merchant_phone'=>  $res['merchant']['mobile'],
-        ]);
-
-        return response()->json([
-            'success'=> true,
-            'message'=> 'paid',
-            'book_date_id'=> $payment->book_date_id,
-        ], 200);
+            return response()->json([
+                'success'=> true,
+                'message'=> 'paid',
+                'booking_code'=> $payment->bookDatePayment->permanent_booking_code,
+            ], 200);
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success'=> false,
+                'message'=> $th->getMessage(),
+            ], 200);
+        }
+        
 
     }
 
@@ -161,14 +182,19 @@ class DatePaymentController extends Controller
                     ]);
                 }
             }
+
+            $bookDate = BookDate::where('book_date_id',$payment_success->book_date_id)->first();
+
+            $bookDate->update([
+                'payment_status' => 'paid',
+                'permanent_booking_code'  =>  Session::get('permanent_booking_code'),
+            ]);
+
+            return view('frontend.datePayment.payment-result')->with('payment_success',$payment_success);
         }
 
-        $bookDate = BookDate::where('book_date_id',$payment_success->book_date_id)->first();
-        $bookDate->update([
-            'payment_status' => 'paid',
-        ]);
-
-        return view('frontend.datePayment.payment-result')->with('payment_success',$payment_success);
+        return view('frontend.datePayment.payment-result');
+        
     }
 
     public function makePayment()
@@ -178,22 +204,43 @@ class DatePaymentController extends Controller
 
     public function directPayment(Request $request)
     {
-        $studentPayment = Student::where('email',$request->email)->first();
-        if(!empty($studentPayment))
+        Session::put('permanent_booking_code', $this->generateBookingCode());
+        $datePayment = BookDate::where('temp_booking_code',$request->temp_booking_code)->first();
+        if(!empty($datePayment)  && !empty($datePayment->student))
         {
-            if($studentPayment->studentBookDate->payment_status == 'unpaid')
+            if($datePayment->payment_status == 'unpaid')
             {
-                return redirect()->route('student.date-payment',$studentPayment->studentBookDate->book_date_id);
+                return redirect()->route('student.date-payment',$datePayment->book_date_id);
             }
             else
             {
                 return redirect()->route('student.make-payment')->withError('Payment Already done.');
             }
         }
+        elseif(!empty($datePayment) && empty($datePayment->student->student_id))
+        {
+            return redirect()->route('student.make-payment')->withError('Student form not filled.');
+        }
         else
         {
-            return redirect()->route('student.make-payment')->withError('No dates booked for this email address.');
+            return redirect()->route('student.make-payment')->withError('Invalid temporary booking code.');
         }
+    }
+    public function generateBookingCode() {
+        $number = mt_rand(100000, 999999); 
+    
+        // call the same function if the barcode exists already
+        if ($this->bookingCode($number)) {
+            return generateBookingCode();
+        }
+    
+        // otherwise, it's valid and can be used
+        return $number;
+    }
+
+    public function bookingCode($number)
+    {
+        return BookDate::wherePermanentBookingCode($number)->exists();
     }
 
 }

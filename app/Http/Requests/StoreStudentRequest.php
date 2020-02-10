@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Student;
 use Gate;
+use App\Student;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,13 +25,11 @@ class StoreStudentRequest extends FormRequest
             ],
             'email'           => [
                 'required',
-                'unique:students',
             ],
             'phone'           => [
                 'required',
                 'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'digits:10'
             ],
             'address'         => [
                 'required',

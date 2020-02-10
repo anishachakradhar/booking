@@ -3,8 +3,9 @@
 namespace App\Observers;
 
 use App\BookDate;
-use App\Notifications\DataChangeEmailNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\BookDatePaidNotification;
+use App\Notifications\DataChangeEmailNotification;
 
 class BookDateActionObserver
 {
@@ -23,7 +24,7 @@ class BookDateActionObserver
         $users = \App\User::whereHas('roles', function ($q) {
             return $q->where('title', 'Admin');
         })->get();
-        Notification::send($users, new DataChangeEmailNotification($data));
+        Notification::send($users, new BookDatePaidNotification($data));
     }
 
     public function deleting(BookDate $model)

@@ -16,6 +16,8 @@
                             <input class="form-control" type="text" name="email"  value="{{$book_date->student->email }}" readonly>
                             <label for="date">Date Booked</label>
                             <input class="form-control" type="text" name="date"  value="{{$book_date->date->available_date }}" readonly>
+                            <label for="date">Temporary Booking Code</label>
+                            <input class="form-control" type="text" name="temp"  value="{{$book_date->temp_booking_code }}" readonly>
                         </div>
                         <button class="btn btn-success" id="payment-button">Pay with Khalti</button>
                         <script>

@@ -22,6 +22,7 @@ class StoreAvailableDateRequest extends FormRequest
             'available_date' => [
                 'date_format:' . config('panel.date_format'),
                 'required',
+                'after:today'
             ],
         ];
     }

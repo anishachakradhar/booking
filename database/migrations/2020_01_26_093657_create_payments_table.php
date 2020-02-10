@@ -15,9 +15,9 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('book_date_id');
+            $table->string('book_date_id')->unique();
             $table->foreign('book_date_id')->references('book_date_id')->on('book_dates');
-            $table->string('student_id');
+            $table->string('student_id')->unique();
             $table->foreign('student_id')->references('student_id')->on('students');
             $table->string('payment_id');
             $table->string('type_id');
@@ -33,6 +33,7 @@ class CreatePaymentsTable extends Migration
             $table->string('merchant_id');
             $table->string('merchant_name');
             $table->string('merchant_phone');
+            $table->string('token');
             $table->timestamps();
             $table->softDeletes();
         });

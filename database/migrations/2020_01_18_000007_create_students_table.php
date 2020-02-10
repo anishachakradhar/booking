@@ -13,9 +13,9 @@ class CreateStudentsTable extends Migration
 
             $table->string('name');
 
-            $table->string('email')->unique();
+            $table->string('email');
 
-            $table->integer('phone');
+            $table->bigInteger('phone');
 
             $table->date('dob');
 
@@ -39,7 +39,7 @@ class CreateStudentsTable extends Migration
 
             $table->string('student_id')->unique();
 
-            $table->string('book_date_id');
+            $table->string('book_date_id')->unique();
 
             $table->foreign('book_date_id')->references('book_date_id')->on('book_dates');
 

@@ -3,9 +3,10 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class PaymentCompletedEmailNotification extends Notification
 {
@@ -63,7 +64,7 @@ class PaymentCompletedEmailNotification extends Notification
                 ->subject('IELTS Booking' . ': Payment Successful ' )
                 ->greeting('Hi,')
                 ->line('We would like to inform you that your payment is successful for ' . $this->paid_user->bookDatePayment->date->available_date . '.')
-                ->line('Your booking code is ' . $this->paid_user->book_date_id .'.')
+                ->line('Your booking code is ' . Session::get('permanent_booking_code') . '.')
                 ->line('Thank you,')
                 ->line('Technorio Team')
                 ->salutation(' ');

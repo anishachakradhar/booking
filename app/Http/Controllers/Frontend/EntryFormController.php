@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 
@@ -51,11 +52,26 @@ class EntryFormController extends Controller
     public function store(StoreStudentRequest $request, $id)
     {
         $bookDate = BookDate::where('book_date_id', $id)->first();
+
+        if(empty($bookDate))
+        {
+            $bookDate = BookDate::create([
+                'book_date_id' => Session::get('book_date_id'),
+                'available_date_id' => Session::get('available_date_id'),
+                'temp_booking_code'  =>  Session::get('temp_booking_code')
+            ]);
+            $bookDate = BookDate::where('book_date_id', $id)->first();
+        }
+
         $request['student_id'] = Str::random(5);
         $request['book_date_status'] = $bookDate->book_date_status;
+        
+        Student::updateOrCreate([
+            'book_date_id' => Session::get('book_date_id'),
+        ],$request->all());
 
-        $student = Student::create($request->all());
-
+        $student = Student::where('book_date_id', Session::get('book_date_id'))->first();
+        
         if ($request->input('passport_photo', false)) {
             $student->addMedia(storage_path('tmp/uploads/' . $request->input('passport_photo')))->toMediaCollection('passport_photo');
         }
@@ -101,21 +117,25 @@ class EntryFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStudentRequest $request, $id)
     {
         // $student = Student::where('student_id',$id)->first();
 
-        // $student->update($request->all());
+        // if(!empty($student))
+        // {
+        //     $student->update($request->all());
 
-        // if ($request->input('passport_photo', false)) {
-        //     if (!$student->passport_photo || $request->input('passport_photo') !== $student->passport_photo->file_name) {
-        //         $student->addMedia(storage_path('tmp/uploads/' . $request->input('passport_photo')))->toMediaCollection('passport_photo');
+        //     if ($request->input('passport_photo', false)) {
+        //         if (!$student->passport_photo || $request->input('passport_photo') !== $student->passport_photo->file_name) {
+        //             $student->addMedia(storage_path('tmp/uploads/' . $request->input('passport_photo')))->toMediaCollection('passport_photo');
+        //         }
+        //     } elseif ($student->passport_photo) {
+        //         $student->passport_photo->delete();
         //     }
-        // } elseif ($student->passport_photo) {
-        //     $student->passport_photo->delete();
+    
+        //     return redirect()->route('student.date-booking', $student->book_date_id);
         // }
-
-        // return redirect()->route('student.date-booking', $student->student_id);
+        
     }
 
     /**
@@ -135,9 +155,13 @@ class EntryFormController extends Controller
 
     public function studentDetail(Request $request)
     {
-        $studentDetail = Student::where('book_date_id',$request->booking_code)->first();
-        if(!empty($studentDetail))
+        // dd($request->toArray());
+        $bookDate = BookDate::where('permanent_booking_code',$request->permanent_booking_code)->first();
+
+        if(!empty($bookDate))
         {
+            $studentDetail = Student::where('book_date_id',$bookDate->book_date_id)->first();
+
             return view('frontend.student.student-detail',compact('studentDetail'));
         }
         else
@@ -145,4 +169,5 @@ class EntryFormController extends Controller
             return redirect()->route('student.details')->withError('Booking code invalid.');
         }
     }
+
 }
